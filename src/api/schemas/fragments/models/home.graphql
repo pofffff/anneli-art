@@ -1,0 +1,18 @@
+fragment home on HomeRecord {
+  id
+  title
+  description(markdown: true)
+  image {
+    ...image169
+  }
+  content {
+    ...cardGridBlock
+    ...contentBlock
+    ...galleryBlock
+    ...heroBlock
+    ...listBlock
+    ...mediaBlock
+    ...showcaseBlock
+    ...testimonialBlock
+  }
+}

@@ -1,0 +1,22 @@
+fragment navItem on NavItemRecord {
+  title
+  url
+  children {
+    title
+    pageLink {
+      ... on PageRecord {
+        id
+        pageSlug
+      }
+    }
+    children {
+      title
+      pageLink {
+        ... on PageRecord {
+          id
+          pageSlug
+        }
+      }
+    }
+  }
+}

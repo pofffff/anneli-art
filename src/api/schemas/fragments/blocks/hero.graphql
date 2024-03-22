@@ -1,0 +1,25 @@
+fragment heroBlock on HeroRecord {
+  id
+  center
+  contentBackground {
+    hex
+  }
+  description(markdown: true)
+  title
+  subtitle
+  ctaLabel
+  ctaLink {
+    ... on PageRecord {
+      pageSlug
+    }
+  }
+  desktopImage: image {
+    ...image169
+  }
+  tabletImage: image {
+    ...image1
+  }
+  mobileImage: image {
+    ...image34
+  }
+}

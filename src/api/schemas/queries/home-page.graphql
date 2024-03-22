@@ -1,0 +1,5 @@
+query HomePage($locale: SiteLocale) {
+  home(locale: $locale) {
+    ...home
+  }
+}

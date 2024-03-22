@@ -1,0 +1,20 @@
+fragment contentBlock on ContentRecord {
+  id
+  content {
+    blocks
+    value
+    links {
+      ... on PageRecord {
+        id
+        title
+        description(markdown: true)
+        pageSlug
+      }
+      ... on LinkRecord {
+        id
+        url
+        title
+      }
+    }
+  }
+}

@@ -1,0 +1,14 @@
+fragment showcaseBlock on ShowcaseRecord {
+  id
+  alignImageLeft
+  background {
+    hex
+  }
+  description(markdown: true)
+  title
+  subtitle
+  link
+  image {
+    ...image1
+  }
+}

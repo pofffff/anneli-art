@@ -1,0 +1,23 @@
+fragment site on Site {
+  locales
+  globalSeo {
+    twitterAccount
+    titleSuffix
+    siteName
+    facebookPageUrl
+    fallbackSeo {
+      title
+      description
+      twitterCard
+      image {
+        alt
+        tags
+        title
+        url
+        width
+        height
+        format
+      }
+    }
+  }
+}
