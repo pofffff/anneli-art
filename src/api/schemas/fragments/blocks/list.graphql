@@ -4,27 +4,6 @@ fragment listBlock on ListRecord {
   size
   pagination
   links {
-    ... on PageRecord {
-      id
-      title
-      description(markdown: true)
-      pageSlug
-      content {
-        ... on HeroRecord {
-          id
-          image {
-            ...image1
-          }
-        }
-      }
-    }
-    ... on LinkRecord {
-      id
-      url
-      title
-      image {
-        ...image1
-      }
-    }
+    ...pageLink
   }
 }

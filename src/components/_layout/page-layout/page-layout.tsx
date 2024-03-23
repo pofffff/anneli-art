@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import { Image1Fragment } from 'types'
 import { useRouter } from 'next/router'
+import { StyledPageLayout } from './styled-page-layout'
 
 interface Props {
   children: React.ReactNode
@@ -18,7 +19,7 @@ export const PageLayout: React.FC<Props> = ({
   const { asPath } = useRouter()
   const url = asPath.split('?')[0]
   const adress = 'https://www.yoururl.com'
-  const href = `https://${adress}${url}`
+  const href = `${adress}${url}`
   const hrefLang = 'en'
   const canonical = href
 
@@ -55,7 +56,7 @@ export const PageLayout: React.FC<Props> = ({
         <meta name="twitter:card" content="summary" />
         <link rel="alternate" hrefLang={hrefLang} href={href} key={href} />
       </Head>
-      {children}
+      <StyledPageLayout>{children}</StyledPageLayout>
     </div>
   )
 }

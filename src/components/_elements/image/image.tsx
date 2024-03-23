@@ -1,14 +1,19 @@
-import Image from 'next/image'
+import { sizes } from 'styles'
 import { Image1Fragment } from 'types'
 import { StyledImage } from './styled-image'
+import Image from 'next/image'
 
-interface ImageProps {
-  image: Image1Fragment
+interface Props {
+  image: Image1Fragment | null
+  priority?: boolean
   sizes?: string
+  aspectRatio?: string
 }
 
-export const SquareImage: React.FC<ImageProps> = ({
+export const ImageEl: React.FC<Props> = ({
   image,
+  aspectRatio = '3/4',
+  priority = false,
   sizes = 'auto',
 }) => {
   const ImageElement: React.FC<{
@@ -22,23 +27,19 @@ export const SquareImage: React.FC<ImageProps> = ({
         alt={alt}
         sizes={sizes}
         fill
-        priority={false}
+        priority={priority}
         placeholder="blur"
-        blurDataURL={base64 || ''}
+        blurDataURL={base64 ?? ''}
       />
     ) : null
   }
 
-  if (!image) {
-    return null
-  }
-
   return (
-    <StyledImage>
+    <StyledImage $aspectRatio={aspectRatio}>
       <ImageElement
-        src={image?.responsiveImage?.src || ''}
-        base64={image?.responsiveImage?.base64 || ''}
-        alt={image.alt || ''}
+        src={image?.responsiveImage?.src ?? ''}
+        base64={image?.responsiveImage?.base64 ?? ''}
+        alt={image?.alt ?? ''}
       />
     </StyledImage>
   )

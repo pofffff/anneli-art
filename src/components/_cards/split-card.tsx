@@ -7,7 +7,7 @@ import {
 
 import { HeadingH2 } from 'components'
 import { Image1Fragment } from 'types'
-import { SquareImage } from 'components/_elements/image/square-image'
+import { DynamicImage } from 'components/_elements/image/dynamic-image'
 
 interface Props {
   backgroundColor: string
@@ -41,7 +41,7 @@ export const SplitCard: React.FC<Props> = ({
       shadow={shadow}
       backgroundColor={backgroundColor}
     >
-      {image && <SquareImage image={image} />}
+      {image && <DynamicImage image={image} />}
       <ContentWrapper
         backgroundColor={backgroundColor}
         spacing={spacing}

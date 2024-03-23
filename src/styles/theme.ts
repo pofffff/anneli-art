@@ -1,29 +1,27 @@
 const colorVars = {
-  neutral1: '#f8f9fa',
-  neutral2: '#b0b0b0',
-  neutral3: '#4d4d4e',
-  neutral4: '#000000',
-  blue1: '#007bff',
-  blue2: '#0056b3',
-  blue3: '#004b9a',
-  blue4: '#003366',
-  indigo1: '#6610f2',
-  indigo2: '#5a0d9d',
-  indigo3: '#4d0b83',
+  white: '#FFFFFF',
+  black: '#001117',
+  color1: '#8C9F9B',
+  color2: '#F9E1B3',
+  color3: '#FDEEC1',
 }
 
 export const colors = {
-  backgroundPrimary: colorVars.blue1,
-  backgroundPrimaryAccent: colorVars.blue2,
-  backgroundSecondary: colorVars.blue3,
-  backgroundSecondaryAccent: colorVars.blue4,
-  backgroundTertiary: colorVars.indigo1,
-  backgroundTertiaryAccent: colorVars.indigo2,
-  contentPrimary: colorVars.neutral1,
-  contentSecondary: colorVars.neutral2,
-  contentTertiary: colorVars.neutral3,
-  contentLight: colorVars.neutral1,
-  contentDark: colorVars.neutral4,
+  backgroundPrimary: colorVars.white,
+  // backgroundPrimaryAccent: colorVars.blue2,
+  backgroundSecondary: colorVars.black,
+  colorDark: colorVars.black,
+  colorDarkAccent: colorVars.color1,
+  colorLight: colorVars.color2,
+  colorLightAccent: colorVars.color3,
+  // backgroundSecondaryAccent: colorVars.blue4,
+  // backgroundTertiary: colorVars.indigo1,
+  // backgroundTertiaryAccent: colorVars.indigo2,
+  // contentPrimary: colorVars.neutral1,
+  // contentSecondary: colorVars.neutral2,
+  // contentTertiary: colorVars.neutral3,
+  contentLight: colorVars.white,
+  contentDark: colorVars.black,
 }
 
 export const sizes = {
@@ -43,11 +41,12 @@ export const contentSpacing = {
 }
 
 export const spacings = {
-  containerXL: '10vw',
-  containerL: '7.5vw',
-  containerM: '5vw',
-  containerS: '3.75vw',
-  containerXS: '2.5vw',
+  XL: '10vw',
+  L: '7.5vw',
+  M: '5vw',
+  S: '3.75vw',
+  XS: '2.5vw',
+  pageMaxWidth: '1400px',
 }
 
 export const buttonSizes = {
@@ -79,10 +78,7 @@ export const boxShadow = {
 export const fonts = {
   sizeU: 16,
   size: '16px',
-  familyPrimary: "'Raleway', sans-serif", // span, p, div etc
-  familySecondary: "'Roboto', sans-serif", // headings
-  // familyAccent: "'Courier New', monospace",
-}
+} as const
 
 export const fontSizes = {
   h1: fonts.sizeU * 2.5,
@@ -93,7 +89,7 @@ export const fontSizes = {
   h6: fonts.sizeU * 1,
   p: fonts.sizeU * 1,
   small: fonts.sizeU * 0.875,
-}
+} as const
 // if font-size is set to 16px, then:
 // $font-size-h1: $font-size-p * 2.5; // 40px
 // $font-size-h2: $font-size-p * 2; // 32px
@@ -107,13 +103,13 @@ export const zIndex = {
   tooltip: 3000,
   header: 4000,
   overlay: 5000,
-}
+} as const
 
 export const transitions = {
   fast: '0.2s',
   medium: '0.5s',
   slow: '1s',
-}
+} as const
 
 export const breakpoints = {
   desktopLarge: '1440px',
@@ -126,6 +122,10 @@ export const breakpoints = {
   mobileRaw: 480,
   maxGridWidth: '1050px',
   maxGridWidthRaw: 1050,
+} as const
+
+export const borderRadius = {
+  button: '30px',
 } as const
 
 export type Breakpoint = keyof typeof breakpoints

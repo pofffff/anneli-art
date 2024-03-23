@@ -20,7 +20,6 @@ const result: PossibleTypesResultData = {
       'TestimonialRecord',
     ],
     LinkModelLinkField: ['HomeRecord', 'PageRecord'],
-    ListModelLinksField: ['LinkRecord', 'PageRecord'],
     PageModelContentField: [
       'CardGridRecord',
       'ContentRecord',
@@ -28,6 +27,7 @@ const result: PossibleTypesResultData = {
       'HeroRecord',
       'ListRecord',
       'MediaBlockRecord',
+      'PageListRecord',
       'ShowcaseRecord',
       'TestimonialRecord',
     ],
@@ -44,6 +44,7 @@ const result: PossibleTypesResultData = {
       'ListRecord',
       'MediaBlockRecord',
       'NavItemRecord',
+      'PageListRecord',
       'PageRecord',
       'ShowcaseRecord',
       'TestimonialRecord',

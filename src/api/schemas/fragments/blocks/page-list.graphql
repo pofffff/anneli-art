@@ -1,0 +1,12 @@
+fragment pageListBlock on PageListRecord {
+  id
+  pageType {
+    pageSlug
+    title
+    children {
+      title
+      description
+      pageSlug
+    }
+  }
+}

@@ -25,6 +25,7 @@ The hero block is a prominent section often placed at the top of a page. It can 
 ## List
 
 The list block allows for the structured presentation of a series of related items. It can be used for simple text lists or include images, icons, and links.
+ListType can be 'Vertical'
 
 ## Media
 

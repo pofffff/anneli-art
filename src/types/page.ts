@@ -5,6 +5,7 @@ import {
   HeroBlockFragment,
   ListBlockFragment,
   MediaBlockFragment,
+  PageListBlockFragment,
   ShowcaseBlockFragment,
   TestimonialBlockFragment,
 } from './_generated/graphql-types'
@@ -18,3 +19,4 @@ export type ContentBlock =
   | MediaBlockFragment
   | ShowcaseBlockFragment
   | TestimonialBlockFragment
+  | PageListBlockFragment

@@ -12,9 +12,9 @@ const fontStyles = css`
   select,
   article,
   section {
-    font-family: ${fonts.familyPrimary};
     font-size: ${fonts.size};
     margin: 0;
+    line-height: 1.5;
   }
 
   h1,
@@ -23,13 +23,14 @@ const fontStyles = css`
   h4,
   h5,
   h6 {
-    font-family: ${fonts.familySecondary};
+    margin: 0;
   }
 `
 
 const globalStyle = css`
   html {
     min-height: 100vh;
+    width: 100%;
   }
 
   body {

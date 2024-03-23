@@ -1,0 +1,9 @@
+fragment pageLink on PageRecord {
+  id
+  title
+  description(markdown: true)
+  pageSlug
+  image {
+    ...image34
+  }
+}

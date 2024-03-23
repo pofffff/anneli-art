@@ -15,5 +15,6 @@ fragment page on PageRecord {
     ...mediaBlock
     ...showcaseBlock
     ...testimonialBlock
+    ...pageListBlock
   }
 }

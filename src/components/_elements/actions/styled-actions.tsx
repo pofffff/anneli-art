@@ -1,43 +1,65 @@
-import { boxShadow, buttonSizes, colors } from 'styles'
+import { boxShadow, buttonSizes, colors, borderRadius, spacings } from 'styles'
 import styled, { css } from 'styled-components'
 
 import Link from 'next/link'
+import { getBackgroundColor, getTextColor } from 'utils'
 
 const buttonStyles = css`
   cursor: pointer;
-  padding: ${buttonSizes.verticalM} ${buttonSizes.horizontalM};
+  padding: ${buttonSizes.verticalS} ${buttonSizes.horizontalS};
   display: inline-block;
   width: auto;
   align-self: start;
-  border: 1px solid ${colors.backgroundPrimary};
+  /* border: 1px solid ${colors.backgroundPrimary}; */
   box-shadow: ${boxShadow.button};
-
-  &:hover {
-    background-color: ${colors.backgroundPrimaryAccent};
-    border-color: ${colors.backgroundPrimaryAccent};
-  }
+  border-radius: ${borderRadius.button};
+  margin-block-start: ${spacings.XS};
 `
-
-export const StyledButtonLink = styled(Link)`
+interface StyledButtonProps {
+  bgColor: string
+  textColor: string
+}
+export const StyledButtonLink = styled(Link)<StyledButtonProps>`
   ${buttonStyles}
-  background-color: ${colors.backgroundPrimary};
+
+  ${({ bgColor, textColor }) =>
+    // bgColor &&
+    `
+        background: ${bgColor};
+        color: ${textColor}
+
+      
+    `};
 `
 
 export const StyledButtonPrimary = styled.button<
+  StyledButtonProps,
   React.ButtonHTMLAttributes<HTMLButtonElement>
 >`
   ${buttonStyles}
-  background-color: ${colors.backgroundPrimary};
+  ${({ bgColor, textColor }) =>
+    // bgColor &&
+    `
+        background: ${bgColor};
+        color: ${textColor}
+
+      
+    `};
 `
 
 export const StyledButtonSecondary = styled.button<
+  StyledButtonProps,
   React.ButtonHTMLAttributes<HTMLButtonElement>
 >`
   ${buttonStyles}
+  ${({ bgColor, textColor }) =>
+    // bgColor &&
+    `
+        background: ${bgColor};
+        color: ${textColor}
 
-  &:hover {
-    background-color: none;
-  }
+      
+    `};
 `
 
 export const StyledLink = styled(Link)``

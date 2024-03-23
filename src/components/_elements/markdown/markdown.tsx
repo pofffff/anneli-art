@@ -5,6 +5,8 @@ interface Props {
 }
 
 export const Markdown: React.FC<Props> = ({ children }) => {
+  // const preprocessMarkdown = (markdown) => markdown?.replace(/\n/g, '\n\n') ?? ''
+
   return (
     <StyledMarkDown options={{ forceBlock: true }}>
       {children ?? ''}

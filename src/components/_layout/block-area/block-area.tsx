@@ -5,11 +5,13 @@ import {
   Hero,
   List,
   Media,
+  PageList,
   Showcase,
   Testimonial,
 } from 'components/_blocks'
 
 import { ContentBlock } from 'types'
+import { StyledBlockArea } from './styled-block-area'
 
 interface Props {
   blocks?: Array<ContentBlock>
@@ -22,7 +24,7 @@ const ContentAreaMapper: React.FC<any> = (
   const priority = index === 0
   const typename = block.__typename
   const key = `${typename}-${index}`
-  console.log('ContentAreaMapper', block)
+
   switch (typename) {
     case 'HeroRecord':
       return <Hero index={index} {...block} priority={priority} key={key} />
@@ -47,9 +49,12 @@ const ContentAreaMapper: React.FC<any> = (
 
     case 'TestimonialRecord':
       return <Testimonial {...block} key={key} />
+
+    case 'PageListRecord':
+      return <PageList {...block} key={key} />
   }
 }
 
 export const BlockArea: React.FC<Props> = ({ blocks }) => {
-  return <>{blocks?.map(ContentAreaMapper)}</>
+  return <StyledBlockArea>{blocks?.map(ContentAreaMapper)}</StyledBlockArea>
 }

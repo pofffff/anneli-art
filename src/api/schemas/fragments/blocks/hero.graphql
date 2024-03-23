@@ -14,12 +14,12 @@ fragment heroBlock on HeroRecord {
     }
   }
   desktopImage: image {
-    ...image169
+    ...image34
   }
   tabletImage: image {
-    ...image1
+    ...image169
   }
   mobileImage: image {
-    ...image34
+    ...image169
   }
 }

@@ -1,5 +1,3 @@
-// require('swiper/css');
-// require('swiper/css/navigation');`
 import { Footer, Header } from 'components'
 
 import { AppProps } from 'next/app'
@@ -10,8 +8,7 @@ import { GlobalStyle } from 'styles'
 import Head from 'next/head'
 
 function CustomApp({ Component, pageProps }: AppProps<BasePageProps>) {
-  const { footer, menu, site, global, ...restProps } = pageProps
-
+  const { footer, menu, site, ...restProps } = pageProps
   // const router = useRouter();
   // useEffect(() => {
   //   router.events.on('routeChangeComplete', gtmPageView);
@@ -24,6 +21,7 @@ function CustomApp({ Component, pageProps }: AppProps<BasePageProps>) {
 
   return (
     <>
+      <Fonts />
       <Head>
         <meta
           name="viewport"
@@ -37,12 +35,11 @@ function CustomApp({ Component, pageProps }: AppProps<BasePageProps>) {
       <ApplicationProvider
         value={{
           menu,
-          global,
+          // global,
           site,
         }}
       >
-        <Fonts />
-        {menu && <Header menu={menu} />}
+        {menu && <Header menu={menu} site={site!} />}
         <Component {...restProps} />
         {footer && <Footer footer={footer} />}
       </ApplicationProvider>

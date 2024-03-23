@@ -15,7 +15,9 @@ import { getClient } from './apollo-client'
 export const datoClient = () => {
   const client = getClient(fragmentTypes.possibleTypes)
 
-  const getPage = async (slug: string): Promise<PageFragment> => {
+  const getPage = async (slugStr: string): Promise<PageFragment> => {
+    const slug = slugStr === '/' ? 'root' : slugStr
+    console.log({ slugStr, slug })
     const { data } = await client.query({
       query: PageDocument,
       variables: {
@@ -48,9 +50,9 @@ export const datoClient = () => {
       throw new Error('Failed to fetch basePage data')
     }
 
-    const { allNavItems, footer, _site, global } = data
+    const { allNavItems, footer, _site } = data
 
-    return { menu: allNavItems, footer, site: _site, global }
+    return { menu: allNavItems, footer, site: _site }
   }
 
   return { getPage, getHome, getBasePage }
