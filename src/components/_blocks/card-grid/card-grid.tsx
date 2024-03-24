@@ -15,9 +15,7 @@ export const CardGrid: React.FC<Props> = ({
   background,
   showDescription,
 }) => {
-  console.log({ links })
   const uid = useId()
-  console.log({ spacing })
   const CardMapper = (link, index) => {
     const href = link?.pageSlug || link?.url
     return (

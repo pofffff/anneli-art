@@ -17,7 +17,6 @@ export const datoClient = () => {
 
   const getPage = async (slugStr: string): Promise<PageFragment> => {
     const slug = slugStr === '/' ? 'root' : slugStr
-    console.log({ slugStr, slug })
     const { data } = await client.query({
       query: PageDocument,
       variables: {

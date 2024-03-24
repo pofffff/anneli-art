@@ -14,7 +14,6 @@ export const List: React.FC<Props> = ({
   links,
   pagination,
 }) => {
-  console.log({ links })
   return (
     <StyledList size={size as ListSize}>
       {listType === listTypes.vertical && (

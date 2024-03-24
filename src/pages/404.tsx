@@ -14,7 +14,6 @@ export const getStaticProps: GetStaticProps<PageProps> = async (): Promise<
   try {
     const { getPage, getBasePage } = datoClient()
     const page = await getPage('404')
-    console.log({ page })
     const { menu, footer, site } = await getBasePage()
 
     return {
