@@ -6,4 +6,7 @@ fragment pageLink on PageRecord {
   image {
     ...image34
   }
+  parent {
+    pageSlug
+  }
 }

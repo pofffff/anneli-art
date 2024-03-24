@@ -32,7 +32,6 @@ export type Scalars = {
   FloatType: { input: any; output: any }
   IntType: { input: any; output: any }
   ItemId: { input: any; output: any }
-  JsonField: { input: any; output: any }
   MetaTagAttributes: { input: any; output: any }
   UploadId: { input: any; output: any }
 }
@@ -106,15 +105,6 @@ export type ColorField = {
   red: Scalars['IntType']['output']
 }
 
-export type ContentModelContentField = {
-  __typename?: 'ContentModelContentField'
-  blocks: Array<Scalars['String']['output']>
-  links: Array<ContentModelContentLinksField>
-  value: Scalars['JsonField']['output']
-}
-
-export type ContentModelContentLinksField = LinkRecord | PageRecord
-
 /** Block of type Content (content) */
 export type ContentRecord = RecordInterface & {
   __typename?: 'ContentRecord'
@@ -131,13 +121,18 @@ export type ContentRecord = RecordInterface & {
   _status: ItemStatus
   _unpublishingScheduledAt?: Maybe<Scalars['DateTime']['output']>
   _updatedAt: Scalars['DateTime']['output']
-  content?: Maybe<ContentModelContentField>
   id: Scalars['ItemId']['output']
+  text?: Maybe<Scalars['String']['output']>
 }
 
 /** Block of type Content (content) */
 export type ContentRecord_SeoMetaTagsArgs = {
   locale?: InputMaybe<SiteLocale>
+}
+
+/** Block of type Content (content) */
+export type ContentRecordTextArgs = {
+  markdown?: InputMaybe<Scalars['Boolean']['input']>
 }
 
 /** Specifies how to filter by creation datetime */
@@ -579,7 +574,6 @@ export type HomeModelContentFieldListListNonNullMultiLocaleField = {
 export enum HomeModelFieldsReferencingPageModel {
   HomeContent = 'home_content',
   HomeContentCardGridLinks = 'home_content__cardGrid_links',
-  HomeContentContentContent = 'home_content__content_content',
   HomeContentHeroCtaLink = 'home_content__hero_ctaLink',
   HomeContentListLinks = 'home_content__list_links',
 }
@@ -2556,7 +2550,6 @@ export type PageModelContentFieldListListNonNullMultiLocaleField = {
 export enum PageModelFieldsReferencingPageModel {
   PageContent = 'page_content',
   PageContentCardGridLinks = 'page_content__cardGrid_links',
-  PageContentContentContent = 'page_content__content_content',
   PageContentHeroCtaLink = 'page_content__hero_ctaLink',
   PageContentListLinks = 'page_content__list_links',
   PageContentPageListPageType = 'page_content__pageList_pageType',
@@ -3674,6 +3667,7 @@ export type PageLinkFragment = {
       width: any
     } | null
   } | null
+  parent?: { __typename?: 'PageRecord'; pageSlug?: string | null } | null
 }
 
 export type CardGridBlockFragment = {
@@ -3749,26 +3743,7 @@ export type CardGridBlockFragment = {
 export type ContentBlockFragment = {
   __typename?: 'ContentRecord'
   id: any
-  content?: {
-    __typename?: 'ContentModelContentField'
-    blocks: Array<string>
-    value: any
-    links: Array<
-      | {
-          __typename?: 'LinkRecord'
-          id: any
-          url?: string | null
-          title?: string | null
-        }
-      | {
-          __typename?: 'PageRecord'
-          id: any
-          title?: string | null
-          description?: string | null
-          pageSlug?: string | null
-        }
-    >
-  } | null
+  text?: string | null
 }
 
 export type GalleryBlockFragment = {
@@ -3911,6 +3886,7 @@ export type ListBlockFragment = {
         width: any
       } | null
     } | null
+    parent?: { __typename?: 'PageRecord'; pageSlug?: string | null } | null
   }>
 }
 
@@ -4336,30 +4312,7 @@ export type HomeFragment = {
             }
         >
       }
-    | {
-        __typename?: 'ContentRecord'
-        id: any
-        content?: {
-          __typename?: 'ContentModelContentField'
-          blocks: Array<string>
-          value: any
-          links: Array<
-            | {
-                __typename?: 'LinkRecord'
-                id: any
-                url?: string | null
-                title?: string | null
-              }
-            | {
-                __typename?: 'PageRecord'
-                id: any
-                title?: string | null
-                description?: string | null
-                pageSlug?: string | null
-              }
-          >
-        } | null
-      }
+    | { __typename?: 'ContentRecord'; id: any; text?: string | null }
     | {
         __typename?: 'GalleryRecord'
         id: any
@@ -4497,6 +4450,10 @@ export type HomeFragment = {
               webpSrcSet: string
               width: any
             } | null
+          } | null
+          parent?: {
+            __typename?: 'PageRecord'
+            pageSlug?: string | null
           } | null
         }>
       }
@@ -4745,30 +4702,7 @@ export type PageFragment = {
             }
         >
       }
-    | {
-        __typename?: 'ContentRecord'
-        id: any
-        content?: {
-          __typename?: 'ContentModelContentField'
-          blocks: Array<string>
-          value: any
-          links: Array<
-            | {
-                __typename?: 'LinkRecord'
-                id: any
-                url?: string | null
-                title?: string | null
-              }
-            | {
-                __typename?: 'PageRecord'
-                id: any
-                title?: string | null
-                description?: string | null
-                pageSlug?: string | null
-              }
-          >
-        } | null
-      }
+    | { __typename?: 'ContentRecord'; id: any; text?: string | null }
     | {
         __typename?: 'GalleryRecord'
         id: any
@@ -4907,6 +4841,10 @@ export type PageFragment = {
               width: any
             } | null
           } | null
+          parent?: {
+            __typename?: 'PageRecord'
+            pageSlug?: string | null
+          } | null
         }>
       }
     | {
@@ -5036,7 +4974,7 @@ export type PageFragment = {
   >
 }
 
-export type GlobalFragment = {
+export type SiteFragment = {
   __typename?: 'Site'
   globalSeo?: {
     __typename?: 'GlobalSeoField'
@@ -5070,34 +5008,6 @@ export type GlobalFragment = {
           webpSrcSet: string
           width: any
         } | null
-      } | null
-    } | null
-  } | null
-}
-
-export type SiteFragment = {
-  __typename?: 'Site'
-  locales: Array<SiteLocale>
-  globalSeo?: {
-    __typename?: 'GlobalSeoField'
-    twitterAccount?: string | null
-    titleSuffix?: string | null
-    siteName?: string | null
-    facebookPageUrl?: string | null
-    fallbackSeo?: {
-      __typename?: 'SeoField'
-      title?: string | null
-      description?: string | null
-      twitterCard?: string | null
-      image?: {
-        __typename?: 'FileField'
-        alt?: string | null
-        tags: Array<string>
-        title?: string | null
-        url: string
-        width?: any | null
-        height?: any | null
-        format: string
       } | null
     } | null
   } | null
@@ -5178,27 +5088,38 @@ export type BasePageQuery = {
   } | null
   _site: {
     __typename?: 'Site'
-    locales: Array<SiteLocale>
     globalSeo?: {
       __typename?: 'GlobalSeoField'
-      twitterAccount?: string | null
-      titleSuffix?: string | null
-      siteName?: string | null
       facebookPageUrl?: string | null
+      siteName?: string | null
+      titleSuffix?: string | null
+      twitterAccount?: string | null
       fallbackSeo?: {
         __typename?: 'SeoField'
-        title?: string | null
         description?: string | null
+        title?: string | null
         twitterCard?: string | null
         image?: {
           __typename?: 'FileField'
           alt?: string | null
-          tags: Array<string>
-          title?: string | null
           url: string
           width?: any | null
           height?: any | null
           format: string
+          tags: Array<string>
+          title?: string | null
+          responsiveImage?: {
+            __typename?: 'ResponsiveImage'
+            aspectRatio: any
+            base64?: string | null
+            bgColor?: string | null
+            height: any
+            sizes: string
+            src: string
+            srcSet: string
+            webpSrcSet: string
+            width: any
+          } | null
         } | null
       } | null
     } | null
@@ -5308,30 +5229,7 @@ export type HomePageQuery = {
               }
           >
         }
-      | {
-          __typename?: 'ContentRecord'
-          id: any
-          content?: {
-            __typename?: 'ContentModelContentField'
-            blocks: Array<string>
-            value: any
-            links: Array<
-              | {
-                  __typename?: 'LinkRecord'
-                  id: any
-                  url?: string | null
-                  title?: string | null
-                }
-              | {
-                  __typename?: 'PageRecord'
-                  id: any
-                  title?: string | null
-                  description?: string | null
-                  pageSlug?: string | null
-                }
-            >
-          } | null
-        }
+      | { __typename?: 'ContentRecord'; id: any; text?: string | null }
       | {
           __typename?: 'GalleryRecord'
           id: any
@@ -5472,6 +5370,10 @@ export type HomePageQuery = {
                 webpSrcSet: string
                 width: any
               } | null
+            } | null
+            parent?: {
+              __typename?: 'PageRecord'
+              pageSlug?: string | null
             } | null
           }>
         }
@@ -5693,30 +5595,7 @@ export type PageQuery = {
               }
           >
         }
-      | {
-          __typename?: 'ContentRecord'
-          id: any
-          content?: {
-            __typename?: 'ContentModelContentField'
-            blocks: Array<string>
-            value: any
-            links: Array<
-              | {
-                  __typename?: 'LinkRecord'
-                  id: any
-                  url?: string | null
-                  title?: string | null
-                }
-              | {
-                  __typename?: 'PageRecord'
-                  id: any
-                  title?: string | null
-                  description?: string | null
-                  pageSlug?: string | null
-                }
-            >
-          } | null
-        }
+      | { __typename?: 'ContentRecord'; id: any; text?: string | null }
       | {
           __typename?: 'GalleryRecord'
           id: any
@@ -5857,6 +5736,10 @@ export type PageQuery = {
                 webpSrcSet: string
                 width: any
               } | null
+            } | null
+            parent?: {
+              __typename?: 'PageRecord'
+              pageSlug?: string | null
             } | null
           }>
         }
@@ -6814,82 +6697,14 @@ export const ContentBlockFragmentDoc = {
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           {
             kind: 'Field',
-            name: { kind: 'Name', value: 'content' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'blocks' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'value' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'links' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'InlineFragment',
-                        typeCondition: {
-                          kind: 'NamedType',
-                          name: { kind: 'Name', value: 'PageRecord' },
-                        },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'id' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'title' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'description' },
-                              arguments: [
-                                {
-                                  kind: 'Argument',
-                                  name: { kind: 'Name', value: 'markdown' },
-                                  value: { kind: 'BooleanValue', value: true },
-                                },
-                              ],
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'pageSlug' },
-                            },
-                          ],
-                        },
-                      },
-                      {
-                        kind: 'InlineFragment',
-                        typeCondition: {
-                          kind: 'NamedType',
-                          name: { kind: 'Name', value: 'LinkRecord' },
-                        },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'id' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'url' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'title' },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
+            name: { kind: 'Name', value: 'text' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'markdown' },
+                value: { kind: 'BooleanValue', value: true },
+              },
+            ],
           },
         ],
       },
@@ -7511,6 +7326,16 @@ export const PageLinkFragmentDoc = {
               ],
             },
           },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'parent' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'pageSlug' } },
+              ],
+            },
+          },
         ],
       },
     },
@@ -7817,6 +7642,16 @@ export const ListBlockFragmentDoc = {
                   kind: 'FragmentSpread',
                   name: { kind: 'Name', value: 'image34' },
                 },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'parent' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'pageSlug' } },
               ],
             },
           },
@@ -9028,6 +8863,16 @@ export const HomeFragmentDoc = {
               ],
             },
           },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'parent' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'pageSlug' } },
+              ],
+            },
+          },
         ],
       },
     },
@@ -9314,82 +9159,14 @@ export const HomeFragmentDoc = {
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           {
             kind: 'Field',
-            name: { kind: 'Name', value: 'content' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'blocks' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'value' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'links' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'InlineFragment',
-                        typeCondition: {
-                          kind: 'NamedType',
-                          name: { kind: 'Name', value: 'PageRecord' },
-                        },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'id' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'title' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'description' },
-                              arguments: [
-                                {
-                                  kind: 'Argument',
-                                  name: { kind: 'Name', value: 'markdown' },
-                                  value: { kind: 'BooleanValue', value: true },
-                                },
-                              ],
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'pageSlug' },
-                            },
-                          ],
-                        },
-                      },
-                      {
-                        kind: 'InlineFragment',
-                        typeCondition: {
-                          kind: 'NamedType',
-                          name: { kind: 'Name', value: 'LinkRecord' },
-                        },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'id' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'url' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'title' },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
+            name: { kind: 'Name', value: 'text' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'markdown' },
+                value: { kind: 'BooleanValue', value: true },
+              },
+            ],
           },
         ],
       },
@@ -10263,6 +10040,16 @@ export const PageFragmentDoc = {
               ],
             },
           },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'parent' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'pageSlug' } },
+              ],
+            },
+          },
         ],
       },
     },
@@ -10549,82 +10336,14 @@ export const PageFragmentDoc = {
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           {
             kind: 'Field',
-            name: { kind: 'Name', value: 'content' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'blocks' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'value' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'links' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'InlineFragment',
-                        typeCondition: {
-                          kind: 'NamedType',
-                          name: { kind: 'Name', value: 'PageRecord' },
-                        },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'id' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'title' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'description' },
-                              arguments: [
-                                {
-                                  kind: 'Argument',
-                                  name: { kind: 'Name', value: 'markdown' },
-                                  value: { kind: 'BooleanValue', value: true },
-                                },
-                              ],
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'pageSlug' },
-                            },
-                          ],
-                        },
-                      },
-                      {
-                        kind: 'InlineFragment',
-                        typeCondition: {
-                          kind: 'NamedType',
-                          name: { kind: 'Name', value: 'LinkRecord' },
-                        },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'id' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'url' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'title' },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
+            name: { kind: 'Name', value: 'text' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'markdown' },
+                value: { kind: 'BooleanValue', value: true },
+              },
+            ],
           },
         ],
       },
@@ -10982,12 +10701,12 @@ export const PageFragmentDoc = {
     },
   ],
 } as unknown as DocumentNode<PageFragment, unknown>
-export const GlobalFragmentDoc = {
+export const SiteFragmentDoc = {
   kind: 'Document',
   definitions: [
     {
       kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'global' },
+      name: { kind: 'Name', value: 'site' },
       typeCondition: {
         kind: 'NamedType',
         name: { kind: 'Name', value: 'Site' },
@@ -11158,99 +10877,6 @@ export const GlobalFragmentDoc = {
                 {
                   kind: 'FragmentSpread',
                   name: { kind: 'Name', value: 'responsiveImage' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<GlobalFragment, unknown>
-export const SiteFragmentDoc = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'site' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'Site' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'locales' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'globalSeo' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'twitterAccount' },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'titleSuffix' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'siteName' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'facebookPageUrl' },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'fallbackSeo' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'description' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'twitterCard' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'image' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'alt' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'tags' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'title' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'url' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'width' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'height' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'format' },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
                 },
               ],
             },
@@ -11642,7 +11268,6 @@ export const BasePageDocument = {
       selectionSet: {
         kind: 'SelectionSet',
         selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'locales' } },
           {
             kind: 'Field',
             name: { kind: 'Name', value: 'globalSeo' },
@@ -11651,13 +11276,13 @@ export const BasePageDocument = {
               selections: [
                 {
                   kind: 'Field',
-                  name: { kind: 'Name', value: 'twitterAccount' },
+                  name: { kind: 'Name', value: 'facebookPageUrl' },
                 },
-                { kind: 'Field', name: { kind: 'Name', value: 'titleSuffix' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'siteName' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'titleSuffix' } },
                 {
                   kind: 'Field',
-                  name: { kind: 'Name', value: 'facebookPageUrl' },
+                  name: { kind: 'Name', value: 'twitterAccount' },
                 },
                 {
                   kind: 'Field',
@@ -11665,11 +11290,11 @@ export const BasePageDocument = {
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'title' } },
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'description' },
                       },
+                      { kind: 'Field', name: { kind: 'Name', value: 'title' } },
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'twitterCard' },
@@ -11681,32 +11306,8 @@ export const BasePageDocument = {
                           kind: 'SelectionSet',
                           selections: [
                             {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'alt' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'tags' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'title' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'url' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'width' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'height' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'format' },
+                              kind: 'FragmentSpread',
+                              name: { kind: 'Name', value: 'image1' },
                             },
                           ],
                         },
@@ -12084,82 +11685,14 @@ export const HomePageDocument = {
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           {
             kind: 'Field',
-            name: { kind: 'Name', value: 'content' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'blocks' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'value' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'links' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'InlineFragment',
-                        typeCondition: {
-                          kind: 'NamedType',
-                          name: { kind: 'Name', value: 'PageRecord' },
-                        },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'id' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'title' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'description' },
-                              arguments: [
-                                {
-                                  kind: 'Argument',
-                                  name: { kind: 'Name', value: 'markdown' },
-                                  value: { kind: 'BooleanValue', value: true },
-                                },
-                              ],
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'pageSlug' },
-                            },
-                          ],
-                        },
-                      },
-                      {
-                        kind: 'InlineFragment',
-                        typeCondition: {
-                          kind: 'NamedType',
-                          name: { kind: 'Name', value: 'LinkRecord' },
-                        },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'id' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'url' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'title' },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
+            name: { kind: 'Name', value: 'text' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'markdown' },
+                value: { kind: 'BooleanValue', value: true },
+              },
+            ],
           },
         ],
       },
@@ -12407,6 +11940,16 @@ export const HomePageDocument = {
                   kind: 'FragmentSpread',
                   name: { kind: 'Name', value: 'image34' },
                 },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'parent' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'pageSlug' } },
               ],
             },
           },
@@ -13230,82 +12773,14 @@ export const PageDocument = {
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           {
             kind: 'Field',
-            name: { kind: 'Name', value: 'content' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'blocks' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'value' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'links' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'InlineFragment',
-                        typeCondition: {
-                          kind: 'NamedType',
-                          name: { kind: 'Name', value: 'PageRecord' },
-                        },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'id' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'title' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'description' },
-                              arguments: [
-                                {
-                                  kind: 'Argument',
-                                  name: { kind: 'Name', value: 'markdown' },
-                                  value: { kind: 'BooleanValue', value: true },
-                                },
-                              ],
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'pageSlug' },
-                            },
-                          ],
-                        },
-                      },
-                      {
-                        kind: 'InlineFragment',
-                        typeCondition: {
-                          kind: 'NamedType',
-                          name: { kind: 'Name', value: 'LinkRecord' },
-                        },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'id' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'url' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'title' },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
+            name: { kind: 'Name', value: 'text' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'markdown' },
+                value: { kind: 'BooleanValue', value: true },
+              },
+            ],
           },
         ],
       },
@@ -13553,6 +13028,16 @@ export const PageDocument = {
                   kind: 'FragmentSpread',
                   name: { kind: 'Name', value: 'image34' },
                 },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'parent' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'pageSlug' } },
               ],
             },
           },

@@ -1,4 +1,4 @@
-import { BasePageProps, PageFragment } from 'types'
+import { BasePageProps, PageFragment, Params } from 'types'
 import {
   GetServerSideProps,
   GetStaticProps,
@@ -11,22 +11,10 @@ import { BlockArea } from '../components/_layout/block-area/block-area'
 import { PageLayout } from 'components'
 import React from 'react'
 import { datoClient } from 'api'
-import { ParsedUrlQuery } from 'querystring'
+import { getSlugString } from 'utils'
 
 interface PageProps extends BasePageProps {
   page: PageFragment
-}
-
-function getSlugString(params: Params | undefined) {
-  if (!params?.slug) {
-    return '/'
-  } else {
-    return params.slug[params?.slug.length - 1]
-  }
-}
-
-interface Params extends ParsedUrlQuery {
-  slug: string
 }
 
 export const getStaticProps: GetStaticProps<PageProps, Params> = async ({
@@ -39,7 +27,10 @@ export const getStaticProps: GetStaticProps<PageProps, Params> = async ({
     const slug = getSlugString(params)
     const { getPage, getBasePage } = datoClient()
     const page = await getPage(slug)
-    const { menu, footer, site, global } = await getBasePage()
+    if (!page) {
+      return { notFound: true }
+    }
+    const { menu, footer, site } = await getBasePage()
 
     return {
       props: {
@@ -47,11 +38,10 @@ export const getStaticProps: GetStaticProps<PageProps, Params> = async ({
         menu,
         footer,
         site,
-        // global,
       },
     }
   } catch (e) {
-    console.error(e)
+    console.error('Error in getStaticProps:', e)
     return { notFound: true }
   }
 }
@@ -64,7 +54,6 @@ export const getStaticPaths = async () => {
 }
 
 const Page: NextPage<PageProps> = ({ page }) => {
-  console.log({ page })
   return (
     <PageLayout
       title={page.title}

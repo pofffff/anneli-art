@@ -7,6 +7,7 @@ const baseHeadingStyle = () => {
   return css`
     @include heading-style($font-size-h1, $color-content-primary);
     margin-block: ${sizes.s};
+    font-weight: 400;
   `
 }
 

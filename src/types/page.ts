@@ -1,3 +1,4 @@
+import { ParsedUrlQuery } from 'querystring'
 import {
   CardGridBlockFragment,
   ContentBlockFragment,
@@ -20,3 +21,7 @@ export type ContentBlock =
   | ShowcaseBlockFragment
   | TestimonialBlockFragment
   | PageListBlockFragment
+
+export interface Params extends ParsedUrlQuery {
+  slug: string
+}

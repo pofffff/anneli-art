@@ -6,7 +6,6 @@ export interface PossibleTypesResultData {
 const result: PossibleTypesResultData = {
   possibleTypes: {
     CardGridModelLinksField: ['LinkRecord', 'PageRecord'],
-    ContentModelContentLinksField: ['LinkRecord', 'PageRecord'],
     CtaModelLinkField: ['HomeRecord', 'PageRecord'],
     FileFieldInterface: ['FileField'],
     HomeModelContentField: [

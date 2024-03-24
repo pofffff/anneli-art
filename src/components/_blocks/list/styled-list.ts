@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import styled from 'styled-components'
 import { breakpoints, spacings } from 'styles'
 import { ListSize } from 'types'
@@ -18,7 +19,7 @@ function getWidth(size: ListSize) {
 }
 
 export const StyledList = styled.div<StyledListProps>`
-  padding-inline: ${spacings.S};
+  /* padding-inline: ${spacings.S}; */
 `
 
 export const StyledVerticalList = styled.ul`
@@ -43,9 +44,17 @@ export const StyledVerticalList = styled.ul`
     /* grid-auto-rows: calc(25vh - 25px); */
   }
 `
-export const StyledListItem = styled.li<StyledListProps>`
+export const StyledListItem = styled(Link)<StyledListProps>`
   flex: 0 0 auto;
   scroll-snap-align: start;
   width: auto;
   ${({ size }) => `width: ${getWidth(size)};`}
+
+  > * {
+    text-align: center;
+  }
+  &:hover {
+    text-decoration: underline;
+    cursor: pointer;
+  }
 `

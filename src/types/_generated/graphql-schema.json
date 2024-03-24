@@ -595,102 +595,6 @@
       },
       {
         "kind": "OBJECT",
-        "name": "ContentModelContentField",
-        "description": null,
-        "fields": [
-          {
-            "name": "blocks",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  }
-                }
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "links",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "UNION",
-                    "name": "ContentModelContentLinksField",
-                    "ofType": null
-                  }
-                }
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "value",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "JsonField",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          }
-        ],
-        "inputFields": null,
-        "interfaces": [],
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
-        "kind": "UNION",
-        "name": "ContentModelContentLinksField",
-        "description": null,
-        "fields": null,
-        "inputFields": null,
-        "interfaces": null,
-        "enumValues": null,
-        "possibleTypes": [
-          {
-            "kind": "OBJECT",
-            "name": "LinkRecord",
-            "ofType": null
-          },
-          {
-            "kind": "OBJECT",
-            "name": "PageRecord",
-            "ofType": null
-          }
-        ]
-      },
-      {
-        "kind": "OBJECT",
         "name": "ContentRecord",
         "description": "Block of type Content (content)",
         "fields": [
@@ -872,18 +776,6 @@
             "deprecationReason": null
           },
           {
-            "name": "content",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "OBJECT",
-              "name": "ContentModelContentField",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "id",
             "description": null,
             "args": [],
@@ -895,6 +787,31 @@
                 "name": "ItemId",
                 "ofType": null
               }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "text",
+            "description": null,
+            "args": [
+              {
+                "name": "markdown",
+                "description": "Process content as markdown",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Boolean",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -4692,12 +4609,6 @@
           },
           {
             "name": "home_content__cardGrid_links",
-            "description": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "home_content__content_content",
             "description": null,
             "isDeprecated": false,
             "deprecationReason": null
@@ -8783,16 +8694,6 @@
         "possibleTypes": null
       },
       {
-        "kind": "SCALAR",
-        "name": "JsonField",
-        "description": null,
-        "fields": null,
-        "inputFields": null,
-        "interfaces": null,
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
         "kind": "INPUT_OBJECT",
         "name": "LinkFilter",
         "description": "Specifies how to filter Single-link fields",
@@ -11468,12 +11369,6 @@
           },
           {
             "name": "page_content__cardGrid_links",
-            "description": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "page_content__content_content",
             "description": null,
             "isDeprecated": false,
             "deprecationReason": null

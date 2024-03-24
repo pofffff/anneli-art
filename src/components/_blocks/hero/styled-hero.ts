@@ -10,7 +10,7 @@ export const StyledHero = styled.div`
 export const StyledInnerContainer = styled.div<{ background?: string }>`
   display: flex;
   flex-direction: column;
-  padding-inline: ${spacings.M};
+  /* padding-inline: ${spacings.M}; */
 
   @media screen and (min-width: ${breakpoints.desktop}) {
     display: grid;

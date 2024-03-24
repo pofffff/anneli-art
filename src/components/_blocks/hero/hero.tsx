@@ -36,14 +36,14 @@ export const Hero: React.FC<Props> = ({
           <HeadingH1 isH1={isH1}>{title}</HeadingH1>
           <HeadingH2>{subtitle}</HeadingH2>
           <Markdown>{description}</Markdown>
-          {/* {ctaLink?.pageSlug && ctaLabel && (
+          {ctaLink?.pageSlug && ctaLabel && (
             <ButtonPrimary
               backgroundColor={contentBackground?.hex}
               href={ctaLink.pageSlug}
             >
               {ctaLabel}
             </ButtonPrimary>
-          )} */}
+          )}
         </HeroContent>
         <DynamicImage
           priority={priority}

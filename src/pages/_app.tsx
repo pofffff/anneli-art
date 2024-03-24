@@ -35,7 +35,6 @@ function CustomApp({ Component, pageProps }: AppProps<BasePageProps>) {
       <ApplicationProvider
         value={{
           menu,
-          // global,
           site,
         }}
       >
