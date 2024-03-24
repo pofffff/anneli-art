@@ -12,6 +12,8 @@ export const StyledMedia = styled.div`
 `
 
 export const StyledInnerContainer = styled.div<StyledMediaProps>`
+  height: 400px;
+  width: 100%;
   ${({ big }) =>
     !big &&
     `
@@ -19,6 +21,8 @@ export const StyledInnerContainer = styled.div<StyledMediaProps>`
     `}
 
   @media screen and (min-width: ${breakpoints.tablet}) {
+    height: 600px;
+
     flex-direction: row;
     ${({ big }) =>
       !big &&
