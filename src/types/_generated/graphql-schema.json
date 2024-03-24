@@ -776,6 +776,18 @@
             "deprecationReason": null
           },
           {
+            "name": "center",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "BooleanType",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "id",
             "description": null,
             "args": [],
@@ -9944,7 +9956,7 @@
       {
         "kind": "OBJECT",
         "name": "MediaBlockRecord",
-        "description": "Block of type Media block (media_block)",
+        "description": "Block of type Media (media_block)",
         "fields": [
           {
             "name": "_createdAt",
@@ -10119,6 +10131,18 @@
                 "name": "DateTime",
                 "ofType": null
               }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "big",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "BooleanType",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null

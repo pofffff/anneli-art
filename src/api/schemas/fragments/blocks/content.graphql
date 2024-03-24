@@ -1,4 +1,5 @@
 fragment contentBlock on ContentRecord {
   id
+  center
   text(markdown: true)
 }

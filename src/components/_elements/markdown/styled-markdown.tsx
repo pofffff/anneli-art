@@ -3,6 +3,7 @@ import { spacings } from 'styles'
 import styled from 'styled-components'
 
 interface MarkdownProps {
+  center: boolean
   children?: string | null
 }
 
@@ -17,5 +18,11 @@ export const StyledMarkDown = styled(Markdown)<MarkdownProps>`
 
   > * {
     margin-block-end: ${spacings.XS};
+
+    ${({ center }) =>
+      center &&
+      `
+      text-align: center;
+    `}
   }
 `

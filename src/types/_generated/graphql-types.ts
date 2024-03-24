@@ -121,6 +121,7 @@ export type ContentRecord = RecordInterface & {
   _status: ItemStatus
   _unpublishingScheduledAt?: Maybe<Scalars['DateTime']['output']>
   _updatedAt: Scalars['DateTime']['output']
+  center?: Maybe<Scalars['BooleanType']['output']>
   id: Scalars['ItemId']['output']
   text?: Maybe<Scalars['String']['output']>
 }
@@ -2369,7 +2370,7 @@ export type LocalesFilter = {
   notIn?: InputMaybe<Array<SiteLocale>>
 }
 
-/** Block of type Media block (media_block) */
+/** Block of type Media (media_block) */
 export type MediaBlockRecord = RecordInterface & {
   __typename?: 'MediaBlockRecord'
   _createdAt: Scalars['DateTime']['output']
@@ -2385,12 +2386,13 @@ export type MediaBlockRecord = RecordInterface & {
   _status: ItemStatus
   _unpublishingScheduledAt?: Maybe<Scalars['DateTime']['output']>
   _updatedAt: Scalars['DateTime']['output']
+  big?: Maybe<Scalars['BooleanType']['output']>
   id: Scalars['ItemId']['output']
   image?: Maybe<FileField>
   video?: Maybe<FileField>
 }
 
-/** Block of type Media block (media_block) */
+/** Block of type Media (media_block) */
 export type MediaBlockRecord_SeoMetaTagsArgs = {
   locale?: InputMaybe<SiteLocale>
 }
@@ -3743,6 +3745,7 @@ export type CardGridBlockFragment = {
 export type ContentBlockFragment = {
   __typename?: 'ContentRecord'
   id: any
+  center?: any | null
   text?: string | null
 }
 
@@ -3893,6 +3896,7 @@ export type ListBlockFragment = {
 export type MediaBlockFragment = {
   __typename?: 'MediaBlockRecord'
   id: any
+  big?: any | null
   image?: {
     __typename?: 'FileField'
     alt?: string | null
@@ -4312,7 +4316,12 @@ export type HomeFragment = {
             }
         >
       }
-    | { __typename?: 'ContentRecord'; id: any; text?: string | null }
+    | {
+        __typename?: 'ContentRecord'
+        id: any
+        center?: any | null
+        text?: string | null
+      }
     | {
         __typename?: 'GalleryRecord'
         id: any
@@ -4460,6 +4469,7 @@ export type HomeFragment = {
     | {
         __typename?: 'MediaBlockRecord'
         id: any
+        big?: any | null
         image?: {
           __typename?: 'FileField'
           alt?: string | null
@@ -4702,7 +4712,12 @@ export type PageFragment = {
             }
         >
       }
-    | { __typename?: 'ContentRecord'; id: any; text?: string | null }
+    | {
+        __typename?: 'ContentRecord'
+        id: any
+        center?: any | null
+        text?: string | null
+      }
     | {
         __typename?: 'GalleryRecord'
         id: any
@@ -4850,6 +4865,7 @@ export type PageFragment = {
     | {
         __typename?: 'MediaBlockRecord'
         id: any
+        big?: any | null
         image?: {
           __typename?: 'FileField'
           alt?: string | null
@@ -5229,7 +5245,12 @@ export type HomePageQuery = {
               }
           >
         }
-      | { __typename?: 'ContentRecord'; id: any; text?: string | null }
+      | {
+          __typename?: 'ContentRecord'
+          id: any
+          center?: any | null
+          text?: string | null
+        }
       | {
           __typename?: 'GalleryRecord'
           id: any
@@ -5380,6 +5401,7 @@ export type HomePageQuery = {
       | {
           __typename?: 'MediaBlockRecord'
           id: any
+          big?: any | null
           image?: {
             __typename?: 'FileField'
             alt?: string | null
@@ -5595,7 +5617,12 @@ export type PageQuery = {
               }
           >
         }
-      | { __typename?: 'ContentRecord'; id: any; text?: string | null }
+      | {
+          __typename?: 'ContentRecord'
+          id: any
+          center?: any | null
+          text?: string | null
+        }
       | {
           __typename?: 'GalleryRecord'
           id: any
@@ -5746,6 +5773,7 @@ export type PageQuery = {
       | {
           __typename?: 'MediaBlockRecord'
           id: any
+          big?: any | null
           image?: {
             __typename?: 'FileField'
             alt?: string | null
@@ -6695,6 +6723,7 @@ export const ContentBlockFragmentDoc = {
         kind: 'SelectionSet',
         selections: [
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'center' } },
           {
             kind: 'Field',
             name: { kind: 'Name', value: 'text' },
@@ -7847,6 +7876,7 @@ export const MediaBlockFragmentDoc = {
         kind: 'SelectionSet',
         selections: [
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'big' } },
           {
             kind: 'Field',
             name: { kind: 'Name', value: 'image' },
@@ -9157,6 +9187,7 @@ export const HomeFragmentDoc = {
         kind: 'SelectionSet',
         selections: [
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'center' } },
           {
             kind: 'Field',
             name: { kind: 'Name', value: 'text' },
@@ -9346,6 +9377,7 @@ export const HomeFragmentDoc = {
         kind: 'SelectionSet',
         selections: [
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'big' } },
           {
             kind: 'Field',
             name: { kind: 'Name', value: 'image' },
@@ -10334,6 +10366,7 @@ export const PageFragmentDoc = {
         kind: 'SelectionSet',
         selections: [
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'center' } },
           {
             kind: 'Field',
             name: { kind: 'Name', value: 'text' },
@@ -10523,6 +10556,7 @@ export const PageFragmentDoc = {
         kind: 'SelectionSet',
         selections: [
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'big' } },
           {
             kind: 'Field',
             name: { kind: 'Name', value: 'image' },
@@ -11683,6 +11717,7 @@ export const HomePageDocument = {
         kind: 'SelectionSet',
         selections: [
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'center' } },
           {
             kind: 'Field',
             name: { kind: 'Name', value: 'text' },
@@ -12118,6 +12153,7 @@ export const HomePageDocument = {
         kind: 'SelectionSet',
         selections: [
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'big' } },
           {
             kind: 'Field',
             name: { kind: 'Name', value: 'image' },
@@ -12771,6 +12807,7 @@ export const PageDocument = {
         kind: 'SelectionSet',
         selections: [
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'center' } },
           {
             kind: 'Field',
             name: { kind: 'Name', value: 'text' },
@@ -13206,6 +13243,7 @@ export const PageDocument = {
         kind: 'SelectionSet',
         selections: [
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'big' } },
           {
             kind: 'Field',
             name: { kind: 'Name', value: 'image' },
