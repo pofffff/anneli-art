@@ -1,4 +1,4 @@
-import { BasePageProps, GlobalFields } from 'types'
+import { BasePageProps } from 'types'
 import { createContext, useContext } from 'react'
 
 export interface GlobalContextValue extends BasePageProps {}
@@ -12,10 +12,10 @@ export interface GlobalProviderProps {
 
 export const GlobalProvider: React.FC<GlobalProviderProps> = ({
   children,
-  value: { global, menu, site },
+  value: { menu, site },
 }) => {
   return (
-    <GlobalContext.Provider value={{ global, menu, site }}>
+    <GlobalContext.Provider value={{ menu, site }}>
       {children}
     </GlobalContext.Provider>
   )

@@ -1,6 +1,5 @@
 import {
   FooterFragment,
-  GlobalFragment,
   HomeFragment,
   NavItemFragment,
   SiteFragment,
@@ -10,7 +9,7 @@ import {
 export interface DatoApi {
   basePage(): Promise<BasePageProps>
   homePage(): Promise<HomeFragment>
-  page(slug: string): Promise<any>
+  page(slug: string): Promise<any> // TODO fix any
 }
 
 export interface App {
@@ -38,18 +37,6 @@ export type Constants = {
 
 export interface BasePageProps {
   site: SiteFragment
-  global?: GlobalFragment | null
   menu: Array<NavItemFragment>
   footer?: FooterFragment | null
-}
-
-export interface GlobalFields {
-  // site: SiteFragment
-  // global: GlobalFragment
-  // menu: Array<NavItemFragment>
-  // footer: FooterFragment
-}
-
-export interface CustomAppProps extends BasePageProps {
-  api: DatoApi
 }
