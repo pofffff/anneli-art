@@ -17,10 +17,7 @@ interface Props {
   blocks?: Array<ContentBlock>
 }
 
-const ContentAreaMapper: React.FC<any> = (
-  block: ContentBlock,
-  index: number,
-) => {
+const BlockAreaMapper: React.FC<any> = (block: ContentBlock, index: number) => {
   const priority = index === 0
   const typename = block.__typename
   const key = `${typename}-${index}`
@@ -56,5 +53,5 @@ const ContentAreaMapper: React.FC<any> = (
 }
 
 export const BlockArea: React.FC<Props> = ({ blocks }) => {
-  return <StyledBlockArea>{blocks?.map(ContentAreaMapper)}</StyledBlockArea>
+  return <StyledBlockArea>{blocks?.map(BlockAreaMapper)}</StyledBlockArea>
 }
