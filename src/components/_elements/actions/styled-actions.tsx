@@ -16,20 +16,27 @@ const buttonStyles = css`
   margin-block-start: ${spacings.XS};
 `
 interface StyledButtonProps {
-  bgColor: string
-  textColor: string
+  bgColor?: string
+  textColor?: string
 }
 export const StyledButtonLink = styled(Link)<StyledButtonProps>`
   ${buttonStyles}
 
-  ${({ bgColor, textColor }) =>
+  ${({ bgColor, textColor }) => {
     // bgColor &&
-    `
+    if (!bgColor) {
+      bgColor = colors.backgroundPrimary
+    }
+    if (!textColor) {
+      textColor = colors.colorDark
+    }
+    return `
         background: ${bgColor};
         color: ${textColor}
 
       
-    `};
+    `
+  }};
 `
 
 export const StyledButtonPrimary = styled.button<

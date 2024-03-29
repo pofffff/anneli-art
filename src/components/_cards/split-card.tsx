@@ -41,7 +41,13 @@ export const SplitCard: React.FC<Props> = ({
       shadow={shadow}
       backgroundColor={backgroundColor}
     >
-      {image && <DynamicImage image={image} />}
+      {image && (
+        <DynamicImage
+          mobileImage={image}
+          desktopImage={image}
+          tabletImage={image}
+        />
+      )}
       <ContentWrapper
         backgroundColor={backgroundColor}
         spacing={spacing}

@@ -6,9 +6,7 @@ const nextConfig = {
         dangerouslyAllowSVG: true,
         contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
         domains: [
-
             'www.datocms-assets.com',
-
         ],
         imageSizes: [16, 24, 32, 48, 64, 96, 120, 128, 150, 240, 256, 300],
         deviceSizes: [
@@ -17,7 +15,7 @@ const nextConfig = {
         ],
         formats: ['image/avif', 'image/webp'],
     },
-    // reactStrictMode: true,
+    reactStrictMode: true,
     compiler: {
         styledComponents: true,
     },
@@ -68,7 +66,7 @@ const nextConfig = {
     //     localeDetection: false,
     // },
     // productionBrowserSourceMaps: true,
-    // distDir: '_next',
+    distDir: '_next',
     // experimental: {}, // https://github.com/nrwl/nx/issues/16845#issuecomment-1539989969
 }
 
