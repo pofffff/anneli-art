@@ -4,9 +4,17 @@ fragment pageListBlock on PageListRecord {
     pageSlug
     title
     children {
+      id
       title
       description
+      image {
+        ...image43
+      }
       pageSlug
+      parent {
+        pageSlug
+      }
     }
   }
+  listType
 }

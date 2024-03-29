@@ -21,7 +21,7 @@ export const StyledInnerContainer = styled.div<{ background?: string }>`
 
 interface HeroContentProps {
   background?: string
-  center: boolean
+  $center: boolean
 }
 
 export const HeroContent = styled.div<HeroContentProps>`
@@ -46,8 +46,8 @@ export const HeroContent = styled.div<HeroContentProps>`
     )
   }};
 
-  ${({ center }) =>
-    center &&
+  ${({ $center }) =>
+    $center &&
     `
         align-items: center;
 

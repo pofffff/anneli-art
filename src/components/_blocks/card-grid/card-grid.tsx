@@ -15,7 +15,7 @@ export const CardGrid: React.FC<Props> = ({
   background,
   showDescription,
 }) => {
-  const uid = useId()
+  const id = useId()
   const CardMapper = (link, index) => {
     const href = link?.pageSlug || link?.url
     return (
@@ -24,7 +24,7 @@ export const CardGrid: React.FC<Props> = ({
         description={link?.description}
         href={href}
         external={!!link?.url}
-        key={`Card-${index}-${uid}`}
+        key={`Card-${index}-${id}`}
         image={link?.image}
         shadow={shadow}
         spacing={spacing}
@@ -36,7 +36,7 @@ export const CardGrid: React.FC<Props> = ({
   }
   return (
     <StyledCardGrid blockMargin={spacing}>
-      <Grid spacing={spacing}>{links.map(CardMapper)}</Grid>
+      <Grid $spacing={spacing}>{links.map(CardMapper)}</Grid>
       {/* TODO add pagination util */}
     </StyledCardGrid>
   )

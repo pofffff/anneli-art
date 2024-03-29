@@ -3,14 +3,14 @@ import { breakpoints, contentSpacing } from 'styles'
 import styled from 'styled-components'
 
 export interface StyledGridProps {
-  maxColumns?: string
-  spacing: boolean
+  $maxColumns?: string
+  $spacing?: boolean
 }
 export const StyledGrid = styled.div<StyledGridProps>`
   display: grid;
   grid-template-columns: 1fr;
 
-  ${({ spacing }) => spacing && `margin: ${contentSpacing.m};`}
+  ${({ $spacing }) => $spacing && `margin: ${contentSpacing.m};`}
   /* gap: ${(spacing) => (spacing ? contentSpacing.m : '0')}; */
 
   @media screen and (min-width: ${breakpoints.tablet}) {
@@ -19,7 +19,7 @@ export const StyledGrid = styled.div<StyledGridProps>`
 
   @media screen and(min-width: ${breakpoints.desktop}) {
     grid-template-columns: repeat(
-      ${({ maxColumns }) => maxColumns || 'auto-fill'},
+      ${({ $maxColumns }) => $maxColumns || 'auto-fill'},
       minmax(0, 1fr)
     );
   }

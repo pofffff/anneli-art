@@ -9,7 +9,7 @@ export const Markdown: React.FC<Props> = ({ center, children }) => {
   // const preprocessMarkdown = (markdown) => markdown?.replace(/\n/g, '\n\n') ?? ''
 
   return (
-    <StyledMarkDown center={!!center} options={{ forceBlock: true }}>
+    <StyledMarkDown $center={!!center} options={{ forceBlock: true }}>
       {children ?? ''}
     </StyledMarkDown>
   )

@@ -36,3 +36,13 @@ export const CardDescription = styled.p`
   grid-row: 2;
   align-self: start;
 `
+
+export const StyledOverlayCard = styled(Link)`
+  display: flex;
+  flex-direction: column;
+  position: relative;
+
+  div {
+    position: absolute;
+  }
+`

@@ -15,12 +15,12 @@ export const Grid: React.FC<Props> = ({
   children,
   className,
   style,
-  spacing,
+  $spacing = true,
 }) => {
   return (
     <StyledGrid
-      spacing={spacing}
-      maxColumns={'6'}
+      $spacing={$spacing}
+      $maxColumns={'6'}
       className={className}
       style={style}
     >

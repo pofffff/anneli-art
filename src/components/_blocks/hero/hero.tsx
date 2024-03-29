@@ -32,7 +32,7 @@ export const Hero: React.FC<Props> = ({
   return (
     <StyledHero>
       <StyledInnerContainer background={contentBackground?.hex}>
-        <HeroContent center={!!center} background={contentBackground?.hex}>
+        <HeroContent $center={!!center} background={contentBackground?.hex}>
           <HeadingH1 isH1={isH1}>{title}</HeadingH1>
           <HeadingH2>{subtitle}</HeadingH2>
           <Markdown>{description}</Markdown>
