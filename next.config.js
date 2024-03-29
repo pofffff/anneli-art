@@ -4,7 +4,7 @@ const nextConfig = {
     images: {
         minimumCacheTTL: 86400,
         dangerouslyAllowSVG: true,
-        contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
+        contentSecurityPolicy: 'default-src \'self\'; script-src \'none\'; sandbox;',
         domains: [
             'www.datocms-assets.com',
         ],
