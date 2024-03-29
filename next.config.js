@@ -66,7 +66,7 @@ const nextConfig = {
     //     localeDetection: false,
     // },
     // productionBrowserSourceMaps: true,
-    distDir: '_next',
+    distDir: '.next',
     // experimental: {}, // https://github.com/nrwl/nx/issues/16845#issuecomment-1539989969
 }
 
