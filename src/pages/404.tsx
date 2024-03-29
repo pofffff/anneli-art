@@ -25,7 +25,7 @@ export const getStaticProps: GetStaticProps<PageProps> = async (): Promise<
       },
     }
   } catch (e) {
-    // console.error(e)
+    console.error(e)
     return { notFound: true }
   }
 }
