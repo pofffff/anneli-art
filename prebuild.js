@@ -20,4 +20,4 @@ const prebuildScripts = async () => {
     );
 };
 
-prebuildScripts();
+// prebuildScripts();
