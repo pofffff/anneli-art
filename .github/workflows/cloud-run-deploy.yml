@@ -34,7 +34,9 @@ jobs:
 
       - name: Build and Push Docker Image
         run: |
-          docker build -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.DOCKER_IMAGE_NAME }}:latest .
+          docker build -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.DOCKER_IMAGE_NAME }}:latest \
+            --build-arg DATO_TOKEN=${{ secrets.DATO_TOKEN }} \
+            --build-arg DATO_PREVIEW=${{ secrets.DATO_PREVIEW }} .
           docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.DOCKER_IMAGE_NAME }}:latest
 
       - name: Deploy to Cloud Run
