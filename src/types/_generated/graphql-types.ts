@@ -7432,7 +7432,7 @@ export const PageLinkFragmentDoc = {
               selections: [
                 {
                   kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'image34' },
+                  name: { kind: 'Name', value: 'image1' },
                 },
               ],
             },
@@ -7494,7 +7494,7 @@ export const PageLinkFragmentDoc = {
     },
     {
       kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'image34' },
+      name: { kind: 'Name', value: 'image1' },
       typeCondition: {
         kind: 'NamedType',
         name: { kind: 'Name', value: 'FileField' },
@@ -7536,7 +7536,7 @@ export const PageLinkFragmentDoc = {
                       name: { kind: 'Name', value: 'ar' },
                       value: {
                         kind: 'StringValue',
-                        value: '3:4',
+                        value: '1:1',
                         block: false,
                       },
                     },
@@ -7646,7 +7646,7 @@ export const ListBlockFragmentDoc = {
     },
     {
       kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'image34' },
+      name: { kind: 'Name', value: 'image1' },
       typeCondition: {
         kind: 'NamedType',
         name: { kind: 'Name', value: 'FileField' },
@@ -7688,7 +7688,7 @@ export const ListBlockFragmentDoc = {
                       name: { kind: 'Name', value: 'ar' },
                       value: {
                         kind: 'StringValue',
-                        value: '3:4',
+                        value: '1:1',
                         block: false,
                       },
                     },
@@ -7751,7 +7751,7 @@ export const ListBlockFragmentDoc = {
               selections: [
                 {
                   kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'image34' },
+                  name: { kind: 'Name', value: 'image1' },
                 },
               ],
             },
@@ -8970,7 +8970,7 @@ export const HomeFragmentDoc = {
               selections: [
                 {
                   kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'image34' },
+                  name: { kind: 'Name', value: 'image1' },
                 },
               ],
             },
@@ -10294,7 +10294,7 @@ export const PageFragmentDoc = {
               selections: [
                 {
                   kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'image34' },
+                  name: { kind: 'Name', value: 'image1' },
                 },
               ],
             },
@@ -12228,7 +12228,7 @@ export const HomePageDocument = {
               selections: [
                 {
                   kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'image34' },
+                  name: { kind: 'Name', value: 'image1' },
                 },
               ],
             },
@@ -13318,7 +13318,7 @@ export const PageDocument = {
               selections: [
                 {
                   kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'image34' },
+                  name: { kind: 'Name', value: 'image1' },
                 },
               ],
             },
