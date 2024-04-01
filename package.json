@@ -33,7 +33,6 @@
     "@graphql-codegen/typed-document-node": "^5.0.6",
     "@graphql-codegen/typescript": "^4.0.6",
     "@graphql-codegen/typescript-operations": "^4.2.0",
-    "@netlify/plugin-nextjs": "^4.41.3",
     "@svgr/webpack": "^8.1.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.1.3",

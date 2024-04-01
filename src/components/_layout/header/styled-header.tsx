@@ -24,11 +24,15 @@ export const StyledLogoLink = styled(Link)`
   align-self: baseline;
   width: 115px;
 `
-export const StyledHeading = styled.div`
+export const StyledHeading = styled(Link)`
   width: 100%;
   display: flex;
   justify-content: center;
   margin-block-end: ${spacings.XS};
+
+  &:hover {
+    text-decoration: none;
+  }
 `
 
 export const StyledNav = styled.nav`

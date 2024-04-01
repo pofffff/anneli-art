@@ -21,7 +21,6 @@ const BlockAreaMapper: React.FC<any> = (block: ContentBlock, index: number) => {
   const priority = index === 0
   const typename = block.__typename
   const key = `${typename}-${index}-${block.id}`
-  console.log({ key })
 
   switch (typename) {
     case 'HeroRecord':

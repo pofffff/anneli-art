@@ -22,7 +22,7 @@ export const Header: React.FC<Props> = ({ menu, site }) => {
         {/* <StyledLogoLink href={'/'}>
           <LogoSvg />
         </StyledLogoLink> */}
-        <StyledHeading>
+        <StyledHeading href={'/'}>
           <HeadingH3>{site.globalSeo?.siteName}</HeadingH3>
         </StyledHeading>
       </StyledTopHeader>

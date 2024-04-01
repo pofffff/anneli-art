@@ -10,6 +10,7 @@ export const StyledShowcase = styled.div<StyledShowcaseProps>`
   display: flex;
   flex-direction: column;
   width: 100%;
+  margin-block-start: ${spacings.S};
 
   padding: 0;
   background: ${({ background }) => background ?? 'none'};
@@ -29,6 +30,6 @@ export const StyledShowcaseContent = styled.div`
   flex-direction: column;
 
   @media screen and (min-width: ${breakpoints.tablet}) {
-    padding: ${spacings.S};
+    /* padding: ${spacings.S}; */
   }
 `

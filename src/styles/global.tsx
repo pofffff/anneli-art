@@ -45,6 +45,10 @@ const globalStyle = css`
   a {
     color: inherit;
     text-decoration: inherit;
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 
   #root {
