@@ -4,7 +4,7 @@ fragment pageLink on PageRecord {
   description(markdown: true)
   pageSlug
   image {
-    ...image34
+    ...image1
   }
   parent {
     pageSlug
