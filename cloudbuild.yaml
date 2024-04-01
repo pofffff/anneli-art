@@ -9,16 +9,14 @@ steps:
   # Build Docker image and pass in secrets as build args
   - name: 'gcr.io/cloud-builders/docker'
     args:
-      [
-        'build',
-        '--build-arg',
-        'DATO_TOKEN=$$DATO_TOKEN',
-        '--build-arg',
-        'DATO_PREVIEW=$$DATO_PREVIEW',
-        '-t',
-        'gcr.io/$anneli-art-00002-f5c/anneli-art:$COMMIT_SHA',
-        '.',
-      ]
+      - 'build'
+      - '--build-arg'
+      - 'DATO_TOKEN=${_DATO_TOKEN}'
+      - '--build-arg'
+      - 'DATO_PREVIEW=${_DATO_PREVIEW}'
+      - '-t'
+      - 'gcr.io/${PROJECT_ID}/anneli-art:${COMMIT_SHA}'
+      - '.'
     secretEnv: ['DATO_TOKEN', 'DATO_PREVIEW']
 
 # Define the secrets to be used in the build steps
@@ -30,4 +28,4 @@ secrets:
 
 # Images to be pushed to Container Registry
 images:
-  - 'gcr.io/$anneli-art-00002-f5c/anneli-art:$COMMIT_SHA'
+  - 'gcr.io/${PROJECT_ID}/anneli-art:${COMMIT_SHA}'
