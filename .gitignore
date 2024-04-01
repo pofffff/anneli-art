@@ -1,6 +1,7 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 .env
+myran-art-28c42442d347.json
 
 # dependencies
 /node_modules

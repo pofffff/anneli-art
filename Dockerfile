@@ -1,4 +1,8 @@
 FROM node:20.11.0-alpine AS base
+ARG DATO_TOKEN
+ARG DATO_PREVIEW
+ENV DATO_TOKEN=${DATO_TOKEN}
+ENV DATO_PREVIEW=${DATO_PREVIEW}
 
 WORKDIR /app
 
@@ -11,6 +15,7 @@ FROM base AS builder
 WORKDIR /app
 COPY --from=base /app/node_modules ./node_modules
 COPY . .
+
 RUN npm run build
 
 # Final stage: Run the Next.js application
