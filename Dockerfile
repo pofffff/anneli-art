@@ -1,25 +1,32 @@
 FROM node:20.11.0-alpine AS base
 
-FROM base AS deps
 WORKDIR /app
 
-COPY package.json .
+# First stage: Install dependencies
+COPY package.json ./
+RUN npm install
 
+# Second stage: Build the Next.js application
 FROM base AS builder
 WORKDIR /app
-
-COPY --from=deps /app/node_modules ./node_modules
+COPY --from=base /app/node_modules ./node_modules
 COPY . .
+RUN npm run build
 
+# Final stage: Run the Next.js application
 FROM base AS runner
+WORKDIR /app
+
+# Copy the build output from the builder stage
+COPY --from=builder /app/next.config.js ./
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package.json ./package.json
 
 ENV NODE_ENV production
 ENV NEXT_TELEMETRY_DISABLED 1
-
-COPY --from=builder /app .
-
 EXPOSE 3000
-
 ENV PORT 3000
 
 CMD ["npm", "start"]
