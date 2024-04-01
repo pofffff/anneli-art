@@ -1,0 +1,33 @@
+steps:
+  # Install dependencies and build your Next.js app
+  - name: 'gcr.io/cloud-builders/npm'
+    args: ['install']
+
+  - name: 'gcr.io/cloud-builders/npm'
+    args: ['run', 'build']
+
+  # Build Docker image and pass in secrets as build args
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      [
+        'build',
+        '--build-arg',
+        'DATO_TOKEN=$$DATO_TOKEN',
+        '--build-arg',
+        'DATO_PREVIEW=$$DATO_PREVIEW',
+        '-t',
+        'gcr.io/$anneli-art-00002-f5c/anneli-art:$COMMIT_SHA',
+        '.',
+      ]
+    secretEnv: ['DATO_TOKEN', 'DATO_PREVIEW']
+
+# Define the secrets to be used in the build steps
+secrets:
+  - kmsKeyName: projects/anneli-art-00002-f5c/locations/global/keyRings/key-ring-anneli-art/cryptoKeys/cryptokey
+    secretEnv:
+      DATO_TOKEN: projects/anneli-art-00002-f5c/secrets/DATO_TOKEN/versions/latest
+      DATO_PREVIEW: projects/anneli-art-00002-f5c/secrets/DATO_PREVIEW/versions/latest
+
+# Images to be pushed to Container Registry
+images:
+  - 'gcr.io/$anneli-art-00002-f5c/anneli-art:$COMMIT_SHA'
