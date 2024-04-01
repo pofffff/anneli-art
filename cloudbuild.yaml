@@ -19,8 +19,7 @@ steps:
       - '.'
 
 secrets:
-  - kmsKeyName: projects/anneli-art-00002-f5c/locations/global/keyRings/key-ring-anneli-art/cryptoKeys/cryptokey
-    secretEnv:
+  - secretEnv:
       DATO_TOKEN: projects/anneli-art-00002-f5c/secrets/DATO_TOKEN/versions/latest
       DATO_PREVIEW: projects/anneli-art-00002-f5c/secrets/DATO_PREVIEW/versions/latest
 
