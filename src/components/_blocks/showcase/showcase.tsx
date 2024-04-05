@@ -16,7 +16,7 @@ export const Showcase: React.FC<Props> = ({
   return (
     <StyledShowcase
       background={background?.hex}
-      left={alignImageLeft ? true : false}
+      $left={alignImageLeft ? true : false}
     >
       <StyledShowcaseContent>
         <HeadingH2>{title}</HeadingH2>

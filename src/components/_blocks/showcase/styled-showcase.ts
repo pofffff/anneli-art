@@ -3,7 +3,7 @@ import { breakpoints, spacings } from 'styles'
 
 interface StyledShowcaseProps {
   background?: string
-  left: boolean
+  $left: boolean
 }
 
 export const StyledShowcase = styled.div<StyledShowcaseProps>`
@@ -21,10 +21,10 @@ export const StyledShowcase = styled.div<StyledShowcaseProps>`
     div:first-child {
       margin-inline-end: ${spacings.S};
 
-      ${({ left }) => left && `margin-inline-start: ${spacings.S};`}
+      ${({ $left }) => $left && `margin-inline-start: ${spacings.S};`}
     }
 
-    ${({ left }) => left && `flex-direction: row-reverse;`}
+    ${({ $left }) => $left && `flex-direction: row-reverse;`}
 
     > * {
       flex: 1;
