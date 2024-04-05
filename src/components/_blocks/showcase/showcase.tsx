@@ -23,7 +23,11 @@ export const Showcase: React.FC<Props> = ({
         <HeadingH3>{subtitle}</HeadingH3>
         <Markdown>{description}</Markdown>
       </StyledShowcaseContent>
-      <ImageEl aspectRatio={'1'} image={image ?? null} />
+      <ImageEl
+        sizes="(min-width: 768px) 100vw, 620px"
+        aspectRatio={'1'}
+        image={image ?? null}
+      />
     </StyledShowcase>
   )
 }

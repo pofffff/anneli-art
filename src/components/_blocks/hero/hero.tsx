@@ -53,6 +53,7 @@ export const Hero: React.FC<Props> = ({
           mobileImage={mobileImage}
           tabletImage={tabletImage}
           desktopImage={desktopImage}
+          sizes="(min-width: 1025px) 920px, (max-width: 1024px) 450px"
         />
       </StyledInnerContainer>
     </StyledHero>

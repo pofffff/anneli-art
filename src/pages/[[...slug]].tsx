@@ -39,6 +39,7 @@ export const getStaticProps: GetStaticProps<PageProps, Params> = async ({
         footer,
         site,
       },
+      revalidate: 60,
     }
   } catch (e) {
     console.error('Error in getStaticProps:', e)

@@ -1,7 +1,7 @@
 import { PageFragment, PageListBlockFragment } from 'types'
 import { StyledOverlayList, StyledPageList } from './styled-page-list'
 import { Grid } from 'components/_elements'
-import { OverlayCard } from 'components/_cards'
+import { OverlayCard, SplitCard, StackedCard } from 'components/_cards'
 import { getHref } from 'utils'
 import { useId } from 'react'
 
@@ -14,10 +14,9 @@ export const PageList: React.FC<Props> = ({ pageType, listType }) => {
     return null
   }
 
-  const OverlayListMapper = (item, index) => {
+  const OverlayListMapper = (item, _index) => {
     const { id, title, pageSlug, image, description, parent } = item
     const href = getHref({ parent: parent.pageSlug, target: pageSlug })
-    console.log({ item })
     return (
       <OverlayCard
         key={`card-${id}`}
@@ -29,14 +28,44 @@ export const PageList: React.FC<Props> = ({ pageType, listType }) => {
     )
   }
 
+  const SideBySideListMapper = (item, _index) => {
+    const { id, title, pageSlug, image, description, parent } = item
+    const href = getHref({ parent: parent.pageSlug, target: pageSlug })
+    return (
+      // <SideBySideCard
+      //   key={`card-${id}`}
+      //   href={href}
+      //   image={image}
+      //   title={title}
+      //   description={description}
+      // />
+      <p>Side by side</p>
+    )
+  }
+
+  const StackedListMapper = (item, _index) => {
+    const { id, title, pageSlug, image, description, parent } = item
+    const href = getHref({ parent: parent.pageSlug, target: pageSlug })
+    return (
+      <StackedCard
+        key={`card-${id}`}
+        href={href}
+        image={image}
+        title={title}
+        description={description}
+        sizes="(min-width: 768px) 100vw, 400px"
+        aspectRatio={'1'}
+      />
+    )
+  }
+
   return (
     <StyledPageList>
-      {listType === 'overlay' && (
-        <Grid key={`Grid-${uid}`}>
-          {list.map(OverlayListMapper)}
-          <p></p>
-        </Grid>
-      )}
+      <Grid key={`Grid-${uid}`}>
+        {listType === 'overlay' && list.map(OverlayListMapper)}
+        {listType === 'side-by-side' && list.map(SideBySideListMapper)}
+        {listType === 'stacked' && list.map(StackedListMapper)}
+      </Grid>
     </StyledPageList>
   )
 }

@@ -18,6 +18,12 @@ export const StyledShowcase = styled.div<StyledShowcaseProps>`
   @media screen and (min-width: ${breakpoints.tablet}) {
     flex-direction: row;
 
+    div:first-child {
+      margin-inline-end: ${spacings.S};
+
+      ${({ left }) => left && `margin-inline-start: ${spacings.S};`}
+    }
+
     ${({ left }) => left && `flex-direction: row-reverse;`}
 
     > * {

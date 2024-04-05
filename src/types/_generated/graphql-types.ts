@@ -3635,44 +3635,6 @@ export type FocalPoint = {
   y: Scalars['FloatType']['output']
 }
 
-export type NavLinkFragment = {
-  __typename?: 'PageRecord'
-  id: any
-  title?: string | null
-  pageSlug?: string | null
-}
-
-export type PageLinkFragment = {
-  __typename?: 'PageRecord'
-  id: any
-  title?: string | null
-  description?: string | null
-  pageSlug?: string | null
-  image?: {
-    __typename?: 'FileField'
-    alt?: string | null
-    url: string
-    width?: any | null
-    height?: any | null
-    format: string
-    tags: Array<string>
-    title?: string | null
-    responsiveImage?: {
-      __typename?: 'ResponsiveImage'
-      aspectRatio: any
-      base64?: string | null
-      bgColor?: string | null
-      height: any
-      sizes: string
-      src: string
-      srcSet: string
-      webpSrcSet: string
-      width: any
-    } | null
-  } | null
-  parent?: { __typename?: 'PageRecord'; pageSlug?: string | null } | null
-}
-
 export type CardGridBlockFragment = {
   __typename?: 'CardGridRecord'
   id: any
@@ -5081,6 +5043,44 @@ export type SiteFragment = {
       } | null
     } | null
   } | null
+}
+
+export type NavLinkFragment = {
+  __typename?: 'PageRecord'
+  id: any
+  title?: string | null
+  pageSlug?: string | null
+}
+
+export type PageLinkFragment = {
+  __typename?: 'PageRecord'
+  id: any
+  title?: string | null
+  description?: string | null
+  pageSlug?: string | null
+  image?: {
+    __typename?: 'FileField'
+    alt?: string | null
+    url: string
+    width?: any | null
+    height?: any | null
+    format: string
+    tags: Array<string>
+    title?: string | null
+    responsiveImage?: {
+      __typename?: 'ResponsiveImage'
+      aspectRatio: any
+      base64?: string | null
+      bgColor?: string | null
+      height: any
+      sizes: string
+      src: string
+      srcSet: string
+      webpSrcSet: string
+      width: any
+    } | null
+  } | null
+  parent?: { __typename?: 'PageRecord'; pageSlug?: string | null } | null
 }
 
 export type BasePageQueryVariables = Exact<{
@@ -9756,7 +9756,7 @@ export const PageListBlockFragmentDoc = {
                           selections: [
                             {
                               kind: 'FragmentSpread',
-                              name: { kind: 'Name', value: 'image43' },
+                              name: { kind: 'Name', value: 'image1' },
                             },
                           ],
                         },
@@ -9832,7 +9832,7 @@ export const PageListBlockFragmentDoc = {
     },
     {
       kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'image43' },
+      name: { kind: 'Name', value: 'image1' },
       typeCondition: {
         kind: 'NamedType',
         name: { kind: 'Name', value: 'FileField' },
@@ -9874,7 +9874,7 @@ export const PageListBlockFragmentDoc = {
                       name: { kind: 'Name', value: 'ar' },
                       value: {
                         kind: 'StringValue',
-                        value: '4:3',
+                        value: '1:1',
                         block: false,
                       },
                     },
@@ -10956,7 +10956,7 @@ export const PageFragmentDoc = {
                           selections: [
                             {
                               kind: 'FragmentSpread',
-                              name: { kind: 'Name', value: 'image43' },
+                              name: { kind: 'Name', value: 'image1' },
                             },
                           ],
                         },
@@ -13712,7 +13712,7 @@ export const PageDocument = {
                           selections: [
                             {
                               kind: 'FragmentSpread',
-                              name: { kind: 'Name', value: 'image43' },
+                              name: { kind: 'Name', value: 'image1' },
                             },
                           ],
                         },

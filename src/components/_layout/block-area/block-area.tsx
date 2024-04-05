@@ -26,8 +26,8 @@ const BlockAreaMapper: React.FC<any> = (block: ContentBlock, index: number) => {
     case 'HeroRecord':
       return <Hero index={index} {...block} priority={priority} key={key} />
 
-    case 'CardGridRecord':
-      return <CardGrid {...block} key={key} />
+    // case 'CardGridRecord':
+    //   return <CardGrid {...block} key={key} />
 
     case 'ContentRecord':
       return <Content {...block} key={key} />

@@ -22,7 +22,11 @@ export const VerticalList: React.FC<Props> = ({ items, size }) => {
           key={index}
         >
           {/* TODO maybe move to a Card */}
-          <ImageEl aspectRatio={'1/1'} image={item.image ?? null} />
+          <ImageEl
+            sizes="350px"
+            aspectRatio={'1/1'}
+            image={item.image ?? null}
+          />
           <HeadingH3>{item.title}</HeadingH3>
           <Markdown>{item.description}</Markdown>
         </StyledListItem>

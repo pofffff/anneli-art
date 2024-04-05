@@ -5,31 +5,30 @@ import {
   StyledStackedCard,
 } from './styled-card'
 
-import { HeadingH2 } from 'components'
 import { Image1Fragment } from 'types'
 import { DynamicImage } from 'components/_elements/image/dynamic-image'
+import { ImageEl } from 'components/_elements'
 
 interface Props {
-  backgroundColor: string
   title?: string
   description?: string
   image?: Image1Fragment
-  spacing: boolean
-  shadow: boolean
+  sizes: string
+  aspectRatio: string
   href: string
-  external: boolean
-  showDescription: boolean
+  external?: boolean
+  showDescription?: boolean
 }
 
-export const SplitCard: React.FC<Props> = ({
-  backgroundColor,
+export const StackedCard: React.FC<Props> = ({
   title,
   description,
   href,
-  external,
+  external = false,
   image,
-  spacing,
-  shadow,
+  sizes,
+  aspectRatio,
+
   showDescription,
 }) => {
   const props = external ? { rel: 'noreferrer noopener', target: '_blank' } : {}
@@ -37,21 +36,17 @@ export const SplitCard: React.FC<Props> = ({
     <StyledStackedCard
       href={href}
       {...props}
-      spacing={spacing}
-      shadow={shadow}
-      backgroundColor={backgroundColor}
+      // spacing={spacing}
+      // shadow={shadow}
+      // backgroundColor={backgroundColor}
     >
       {image && (
-        <DynamicImage
-          mobileImage={image}
-          desktopImage={image}
-          tabletImage={image}
-        />
+        <ImageEl image={image} sizes={sizes} aspectRatio={aspectRatio} />
       )}
       <ContentWrapper
-        backgroundColor={backgroundColor}
-        spacing={spacing}
-        shadow={shadow}
+      // backgroundColor={backgroundColor}
+      // spacing={spacing}
+      // shadow={shadow}
       >
         {title && <CardTitle>{title}</CardTitle>}
         {description && showDescription && (

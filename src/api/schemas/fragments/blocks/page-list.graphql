@@ -8,7 +8,7 @@ fragment pageListBlock on PageListRecord {
       title
       description
       image {
-        ...image43
+        ...image1
       }
       pageSlug
       parent {

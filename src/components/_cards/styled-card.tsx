@@ -5,11 +5,11 @@ import styled from 'styled-components'
 export const StyledCard = styled.div``
 
 interface SplitCardProps {
-  spacing: boolean
-  shadow: boolean
+  spacing?: boolean
+  shadow?: boolean
   backgroundColor?: string
 }
-export const StyledSplitCard = styled(Link)<SplitCardProps>`
+export const StyledStackedCard = styled(Link)<SplitCardProps>`
   display: flex;
   flex-direction: column;
 
