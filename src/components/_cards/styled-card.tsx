@@ -21,7 +21,6 @@ export const StyledStackedCard = styled(Link)<SplitCardProps>`
 export const ContentWrapper = styled.div<SplitCardProps>`
   display: grid;
   grid-template-rows: auto 1fr;
-  /* gap: 10px; */
 
   ${({ backgroundColor }) =>
     backgroundColor && `margin-inline: ${contentSpacing.m}; `}
@@ -41,8 +40,21 @@ export const StyledOverlayCard = styled(Link)`
   display: flex;
   flex-direction: column;
   position: relative;
+`
 
-  div {
-    position: absolute;
-  }
+export const StyledOverlayContent = styled.div`
+  position: absolute;
+  padding: ${contentSpacing.m};
+  bottom: 0;
+  left: 0;
+`
+
+export const StyledCardImage = styled.div`
+  position: relative;
+`
+
+export const StyledSold = styled.div`
+  position: absolute;
+  top: 0;
+  right: 0;
 `

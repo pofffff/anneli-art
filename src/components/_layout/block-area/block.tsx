@@ -1,5 +1,4 @@
 import {
-  // CardGrid,
   Content,
   Gallery,
   Hero,
@@ -10,7 +9,6 @@ import {
 } from '../../_blocks'
 
 export const blockComponents: Record<string, React.FC<any>> = {
-  // CardGridRecord: CardGrid,
   ContentRecord: Content,
   GalleryRecord: Gallery,
   HeroRecord: Hero,

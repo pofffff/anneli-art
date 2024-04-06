@@ -6,8 +6,8 @@ fragment page on PageRecord {
   image {
     ...image169
   }
+  sold
   content {
-    ...cardGridBlock
     ...contentBlock
     ...galleryBlock
     ...heroBlock

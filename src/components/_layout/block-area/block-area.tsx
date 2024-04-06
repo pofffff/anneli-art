@@ -1,5 +1,4 @@
 import {
-  CardGrid,
   Content,
   Gallery,
   Hero,
@@ -25,9 +24,6 @@ const BlockAreaMapper: React.FC<any> = (block: ContentBlock, index: number) => {
   switch (typename) {
     case 'HeroRecord':
       return <Hero index={index} {...block} priority={priority} key={key} />
-
-    // case 'CardGridRecord':
-    //   return <CardGrid {...block} key={key} />
 
     case 'ContentRecord':
       return <Content {...block} key={key} />

@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import { breakpoints, spacings } from 'styles'
 
 interface StyledMediaProps {
-  big: boolean
+  $big: boolean
 }
 export const StyledMedia = styled.div`
   display: flex;
@@ -12,20 +12,20 @@ export const StyledMedia = styled.div`
 `
 
 export const StyledInnerContainer = styled.div<StyledMediaProps>`
-  height: 400px;
   width: 100%;
-  ${({ big }) =>
-    !big &&
+  /* width: 100%; */
+  ${({ $big }) =>
+    !$big &&
     `
-    height: 250px;
+    width: 250px;
     `}
 
   @media screen and (min-width: ${breakpoints.tablet}) {
-    height: 600px;
-
+    width: 600px;
     flex-direction: row;
-    ${({ big }) =>
-      !big &&
+
+    ${({ $big }) =>
+      !$big &&
       `
     width: 400px;
     `}

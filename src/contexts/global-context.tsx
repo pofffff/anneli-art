@@ -12,10 +12,10 @@ export interface GlobalProviderProps {
 
 export const GlobalProvider: React.FC<GlobalProviderProps> = ({
   children,
-  value: { menu, site },
+  value: { menu, site, global },
 }) => {
   return (
-    <GlobalContext.Provider value={{ menu, site }}>
+    <GlobalContext.Provider value={{ menu, site, global }}>
       {children}
     </GlobalContext.Provider>
   )

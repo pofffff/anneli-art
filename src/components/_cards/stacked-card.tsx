@@ -2,12 +2,14 @@ import {
   CardDescription,
   CardTitle,
   ContentWrapper,
+  StyledCardImage,
+  StyledSold,
   StyledStackedCard,
 } from './styled-card'
 
 import { Image1Fragment } from 'types'
-import { DynamicImage } from 'components/_elements/image/dynamic-image'
-import { ImageEl } from 'components/_elements'
+import { Badge, ImageEl } from 'components/_elements'
+import { useGlobal } from 'context'
 
 interface Props {
   title?: string
@@ -16,42 +18,36 @@ interface Props {
   sizes: string
   aspectRatio: string
   href: string
-  external?: boolean
-  showDescription?: boolean
+  sold: boolean
 }
 
 export const StackedCard: React.FC<Props> = ({
   title,
   description,
   href,
-  external = false,
   image,
   sizes,
   aspectRatio,
-
-  showDescription,
+  sold,
 }) => {
-  const props = external ? { rel: 'noreferrer noopener', target: '_blank' } : {}
+  const { global } = useGlobal()
+
   return (
-    <StyledStackedCard
-      href={href}
-      {...props}
-      // spacing={spacing}
-      // shadow={shadow}
-      // backgroundColor={backgroundColor}
-    >
-      {image && (
-        <ImageEl image={image} sizes={sizes} aspectRatio={aspectRatio} />
-      )}
-      <ContentWrapper
-      // backgroundColor={backgroundColor}
-      // spacing={spacing}
-      // shadow={shadow}
-      >
-        {title && <CardTitle>{title}</CardTitle>}
-        {description && showDescription && (
-          <CardDescription>{description}</CardDescription>
+    <StyledStackedCard href={href}>
+      <StyledCardImage>
+        {image && (
+          <ImageEl image={image} sizes={sizes} aspectRatio={aspectRatio} />
         )}
+        {sold && (
+          <StyledSold>
+            <Badge text={global?.sold!} />
+          </StyledSold>
+        )}
+      </StyledCardImage>
+
+      <ContentWrapper>
+        {title && <CardTitle>{title}</CardTitle>}
+        {description && <CardDescription>{description}</CardDescription>}
       </ContentWrapper>
     </StyledStackedCard>
   )

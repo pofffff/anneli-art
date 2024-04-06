@@ -5,9 +5,10 @@ query BasePage($locale: SiteLocale) {
   footer(locale: $locale) {
     ...footer
   }
-  # global(locale: $locale) {
-  #   ...global
-  # }
+
+  global(locale: $locale) {
+    ...global
+  }
 
   _site(locale: $locale) {
     ...site

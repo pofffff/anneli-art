@@ -44,7 +44,7 @@ export const StyledVerticalList = styled.ul`
     /* grid-auto-rows: calc(25vh - 25px); */
   }
 `
-export const StyledListItem = styled(Link)<StyledListProps>`
+export const StyledListItem = styled.div<StyledListProps>`
   flex: 0 0 auto;
   scroll-snap-align: start;
   width: auto;

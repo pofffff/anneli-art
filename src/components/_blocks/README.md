@@ -6,10 +6,6 @@ This document describes the set of modular building blocks available for constru
 
 The accordion block allows for the display of collapsible content panels. It's ideal for FAQs, detailed product information, or any content that benefits from being expandable and collapsible to save space.
 
-## Card Grid
-
-The card-grid block is designed to present a collection of items (such as products, services, or articles) in a grid format. Each card can contain an image, title, description, and links.
-
 ## Content
 
 The content block provides a flexible container for long-form text, images, links, and other rich media. It's suitable for blog posts, detailed product descriptions, and any content that requires a more free-form layout.

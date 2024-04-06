@@ -15,32 +15,18 @@ interface Props {
   description?: string
   image?: Image1Fragment
   spacing: boolean
-  shadow: boolean
   href: string
-  external: boolean
-  showDescription: boolean
 }
 
 export const SplitCard: React.FC<Props> = ({
-  backgroundColor,
   title,
   description,
   href,
-  external,
   image,
   spacing,
-  shadow,
-  showDescription,
 }) => {
-  const props = external ? { rel: 'noreferrer noopener', target: '_blank' } : {}
   return (
-    <StyledStackedCard
-      href={href}
-      {...props}
-      spacing={spacing}
-      shadow={shadow}
-      backgroundColor={backgroundColor}
-    >
+    <StyledStackedCard href={href}>
       {image && (
         <DynamicImage
           mobileImage={image}
@@ -48,15 +34,9 @@ export const SplitCard: React.FC<Props> = ({
           tabletImage={image}
         />
       )}
-      <ContentWrapper
-        backgroundColor={backgroundColor}
-        spacing={spacing}
-        shadow={shadow}
-      >
+      <ContentWrapper spacing={spacing}>
         {title && <CardTitle>{title}</CardTitle>}
-        {description && showDescription && (
-          <CardDescription>{description}</CardDescription>
-        )}
+        {/* {description && <CardDescription>{description}</CardDescription>} */}
       </ContentWrapper>
     </StyledStackedCard>
   )

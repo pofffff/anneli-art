@@ -8,6 +8,7 @@ import {
 import { HeroContent, StyledHero, StyledInnerContainer } from './styled-hero'
 
 import { HeroBlockFragment } from 'types'
+import { aspectRatios } from 'styles'
 
 interface Props extends HeroBlockFragment {
   priority: boolean
@@ -47,9 +48,9 @@ export const Hero: React.FC<Props> = ({
         </HeroContent>
         <DynamicImage
           priority={priority}
-          aspectRatioMobile={'16/9'}
-          aspectRatioTablet={'16/9'}
-          aspectRatioDesktop={'3/4'}
+          aspectRatioMobile={aspectRatios.heroMobile}
+          aspectRatioTablet={aspectRatios.heroTablet}
+          aspectRatioDesktop={aspectRatios.heroDesktop}
           mobileImage={mobileImage}
           tabletImage={tabletImage}
           desktopImage={desktopImage}

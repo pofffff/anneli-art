@@ -1,6 +1,5 @@
 import { ParsedUrlQuery } from 'querystring'
 import {
-  CardGridBlockFragment,
   ContentBlockFragment,
   GalleryBlockFragment,
   HeroBlockFragment,
@@ -12,7 +11,6 @@ import {
 } from './_generated/graphql-types'
 
 export type ContentBlock =
-  | CardGridBlockFragment
   | ContentBlockFragment
   | GalleryBlockFragment
   | HeroBlockFragment

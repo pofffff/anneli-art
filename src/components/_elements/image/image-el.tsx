@@ -7,12 +7,12 @@ interface Props {
   image: Image1Fragment | null
   priority?: boolean
   sizes?: string
-  aspectRatio?: string
+  aspectRatio: string
 }
 
 export const ImageEl: React.FC<Props> = ({
   image,
-  aspectRatio = '3/4',
+  aspectRatio,
   priority = false,
   sizes = 'auto',
 }) => {

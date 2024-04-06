@@ -3913,6 +3913,47 @@
         "description": "Record of type Global (global)",
         "fields": [
           {
+            "name": "_allSoldLocales",
+            "description": null,
+            "args": [
+              {
+                "name": "fallbackLocales",
+                "description": "If you want to fallback to a default translation when a translation has not been found",
+                "type": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "ENUM",
+                      "name": "SiteLocale",
+                      "ofType": null
+                    }
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "StringMultiLocaleField",
+                  "ofType": null
+                }
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "_createdAt",
             "description": null,
             "args": [],
@@ -3963,6 +4004,30 @@
                 "kind": "SCALAR",
                 "name": "BooleanType",
                 "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "_locales",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "ENUM",
+                    "name": "SiteLocale",
+                    "ofType": null
+                  }
+                }
               }
             },
             "isDeprecated": false,
@@ -4101,6 +4166,51 @@
                 "name": "ItemId",
                 "ofType": null
               }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "sold",
+            "description": null,
+            "args": [
+              {
+                "name": "fallbackLocales",
+                "description": "If you want to fallback to a default translation when a translation has not been found",
+                "type": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "ENUM",
+                      "name": "SiteLocale",
+                      "ofType": null
+                    }
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "locale",
+                "description": "The locale to use to fetch the field's content",
+                "type": {
+                  "kind": "ENUM",
+                  "name": "SiteLocale",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -4518,11 +4628,6 @@
         "possibleTypes": [
           {
             "kind": "OBJECT",
-            "name": "CardGridRecord",
-            "ofType": null
-          },
-          {
-            "kind": "OBJECT",
             "name": "ContentRecord",
             "ofType": null
           },
@@ -4615,12 +4720,6 @@
         "enumValues": [
           {
             "name": "home_content",
-            "description": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "home_content__cardGrid_links",
             "description": null,
             "isDeprecated": false,
             "deprecationReason": null
@@ -11297,11 +11396,6 @@
         "possibleTypes": [
           {
             "kind": "OBJECT",
-            "name": "CardGridRecord",
-            "ofType": null
-          },
-          {
-            "kind": "OBJECT",
             "name": "ContentRecord",
             "ofType": null
           },
@@ -11399,12 +11493,6 @@
         "enumValues": [
           {
             "name": "page_content",
-            "description": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "page_content__cardGrid_links",
             "description": null,
             "isDeprecated": false,
             "deprecationReason": null
@@ -11649,6 +11737,18 @@
             "deprecationReason": null
           },
           {
+            "name": "sold",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "BooleanFilter",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "title",
             "description": null,
             "type": {
@@ -11789,6 +11889,18 @@
           },
           {
             "name": "position_DESC",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "sold_ASC",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "sold_DESC",
             "description": null,
             "isDeprecated": false,
             "deprecationReason": null
@@ -13168,6 +13280,18 @@
             "type": {
               "kind": "SCALAR",
               "name": "IntType",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "sold",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "BooleanType",
               "ofType": null
             },
             "isDeprecated": false,

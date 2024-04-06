@@ -1,5 +1,5 @@
 import { StyledGrid, StyledGridProps } from './styled-grid'
-import { breakpoints, gridSpacing } from 'styles'
+import { gridSpacing } from 'styles'
 
 import { HTMLAttributes } from 'react'
 

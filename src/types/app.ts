@@ -1,6 +1,6 @@
 import {
   FooterFragment,
-  HomeFragment,
+  GlobalFragment,
   NavItemFragment,
   SiteFragment,
   SiteLocale,
@@ -8,7 +8,6 @@ import {
 
 export interface DatoApi {
   basePage(): Promise<BasePageProps>
-  homePage(): Promise<HomeFragment>
   page(slug: string): Promise<any> // TODO fix any
 }
 
@@ -39,4 +38,5 @@ export interface BasePageProps {
   site: SiteFragment
   menu: Array<NavItemFragment>
   footer?: FooterFragment | null
+  global?: GlobalFragment | null
 }

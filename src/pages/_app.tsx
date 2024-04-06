@@ -8,7 +8,7 @@ import { GlobalStyle } from 'styles'
 import Head from 'next/head'
 
 function CustomApp({ Component, pageProps }: AppProps<BasePageProps>) {
-  const { footer, menu, site, ...restProps } = pageProps
+  const { footer, menu, site, global, ...restProps } = pageProps
   // const router = useRouter();
   // useEffect(() => {
   //   router.events.on('routeChangeComplete', gtmPageView);
@@ -36,6 +36,7 @@ function CustomApp({ Component, pageProps }: AppProps<BasePageProps>) {
         value={{
           menu,
           site,
+          global,
         }}
       >
         {menu && <Header menu={menu} site={site!} />}

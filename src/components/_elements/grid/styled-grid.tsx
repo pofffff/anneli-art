@@ -10,7 +10,7 @@ export const StyledGrid = styled.div<StyledGridProps>`
   display: grid;
   grid-template-columns: 1fr;
 
-  ${({ $spacing }) => $spacing && `margin: ${contentSpacing.m};`}
+  ${({ $spacing }) => $spacing && `grid-gap: ${contentSpacing.l};`}
   /* gap: ${(spacing) => (spacing ? contentSpacing.m : '0')}; */
 
   @media screen and (min-width: ${breakpoints.tablet}) {

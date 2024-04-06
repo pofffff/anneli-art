@@ -30,7 +30,7 @@ export const getStaticProps: GetStaticProps<PageProps, Params> = async ({
     if (!page) {
       return { notFound: true }
     }
-    const { menu, footer, site } = await getBasePage()
+    const { menu, footer, site, global } = await getBasePage()
 
     return {
       props: {
@@ -38,6 +38,7 @@ export const getStaticProps: GetStaticProps<PageProps, Params> = async ({
         menu,
         footer,
         site,
+        global,
       },
       revalidate: 60,
     }

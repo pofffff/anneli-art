@@ -24,6 +24,7 @@ const fontStyles = css`
   h5,
   h6 {
     margin: 0;
+    font-weight: 300;
   }
 `
 

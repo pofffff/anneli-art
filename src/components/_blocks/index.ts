@@ -1,4 +1,3 @@
-export * from './card-grid/card-grid'
 export * from './content/content'
 export * from './gallery/gallery'
 export * from './hero/hero'

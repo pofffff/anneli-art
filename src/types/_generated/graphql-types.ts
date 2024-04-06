@@ -488,11 +488,13 @@ export type GalleryRecord_SeoMetaTagsArgs = {
 /** Record of type Global (global) */
 export type GlobalRecord = RecordInterface & {
   __typename?: 'GlobalRecord'
+  _allSoldLocales?: Maybe<Array<StringMultiLocaleField>>
   _createdAt: Scalars['DateTime']['output']
   /** Editing URL */
   _editingUrl?: Maybe<Scalars['String']['output']>
   _firstPublishedAt?: Maybe<Scalars['DateTime']['output']>
   _isValid: Scalars['BooleanType']['output']
+  _locales: Array<SiteLocale>
   _modelApiKey: Scalars['String']['output']
   _publicationScheduledAt?: Maybe<Scalars['DateTime']['output']>
   _publishedAt?: Maybe<Scalars['DateTime']['output']>
@@ -502,10 +504,22 @@ export type GlobalRecord = RecordInterface & {
   _unpublishingScheduledAt?: Maybe<Scalars['DateTime']['output']>
   _updatedAt: Scalars['DateTime']['output']
   id: Scalars['ItemId']['output']
+  sold?: Maybe<Scalars['String']['output']>
+}
+
+/** Record of type Global (global) */
+export type GlobalRecord_AllSoldLocalesArgs = {
+  fallbackLocales?: InputMaybe<Array<SiteLocale>>
 }
 
 /** Record of type Global (global) */
 export type GlobalRecord_SeoMetaTagsArgs = {
+  locale?: InputMaybe<SiteLocale>
+}
+
+/** Record of type Global (global) */
+export type GlobalRecordSoldArgs = {
+  fallbackLocales?: InputMaybe<Array<SiteLocale>>
   locale?: InputMaybe<SiteLocale>
 }
 
@@ -556,7 +570,6 @@ export type HeroRecordDescriptionArgs = {
 }
 
 export type HomeModelContentField =
-  | CardGridRecord
   | ContentRecord
   | GalleryRecord
   | HeroRecord
@@ -574,7 +587,6 @@ export type HomeModelContentFieldListListNonNullMultiLocaleField = {
 /** Linking fields */
 export enum HomeModelFieldsReferencingPageModel {
   HomeContent = 'home_content',
-  HomeContentCardGridLinks = 'home_content__cardGrid_links',
   HomeContentHeroCtaLink = 'home_content__hero_ctaLink',
   HomeContentListLinks = 'home_content__list_links',
 }
@@ -2533,7 +2545,6 @@ export type PageListRecord_SeoMetaTagsArgs = {
 }
 
 export type PageModelContentField =
-  | CardGridRecord
   | ContentRecord
   | GalleryRecord
   | HeroRecord
@@ -2552,7 +2563,6 @@ export type PageModelContentFieldListListNonNullMultiLocaleField = {
 /** Linking fields */
 export enum PageModelFieldsReferencingPageModel {
   PageContent = 'page_content',
-  PageContentCardGridLinks = 'page_content__cardGrid_links',
   PageContentHeroCtaLink = 'page_content__hero_ctaLink',
   PageContentListLinks = 'page_content__list_links',
   PageContentPageListPageType = 'page_content__pageList_pageType',
@@ -2576,6 +2586,7 @@ export type PageModelFilter = {
   pageSlug?: InputMaybe<SlugFilter>
   parent?: InputMaybe<ParentFilter>
   position?: InputMaybe<PositionFilter>
+  sold?: InputMaybe<BooleanFilter>
   title?: InputMaybe<StringFilter>
 }
 
@@ -2600,6 +2611,8 @@ export enum PageModelOrderBy {
   IdDesc = 'id_DESC',
   PositionAsc = 'position_ASC',
   PositionDesc = 'position_DESC',
+  SoldAsc = 'sold_ASC',
+  SoldDesc = 'sold_DESC',
   TitleAsc = 'title_ASC',
   TitleDesc = 'title_DESC',
 }
@@ -2649,6 +2662,7 @@ export type PageRecord = RecordInterface & {
   pageSlug?: Maybe<Scalars['String']['output']>
   parent?: Maybe<PageRecord>
   position?: Maybe<Scalars['IntType']['output']>
+  sold?: Maybe<Scalars['BooleanType']['output']>
   title?: Maybe<Scalars['String']['output']>
 }
 
@@ -3635,76 +3649,6 @@ export type FocalPoint = {
   y: Scalars['FloatType']['output']
 }
 
-export type CardGridBlockFragment = {
-  __typename?: 'CardGridRecord'
-  id: any
-  showDescription?: any | null
-  pagination?: any | null
-  spacing?: any | null
-  centered?: any | null
-  shadow?: any | null
-  background?: { __typename?: 'ColorField'; hex: string } | null
-  links: Array<
-    | {
-        __typename?: 'LinkRecord'
-        id: any
-        url?: string | null
-        title?: string | null
-        image?: {
-          __typename?: 'FileField'
-          alt?: string | null
-          url: string
-          width?: any | null
-          height?: any | null
-          format: string
-          tags: Array<string>
-          title?: string | null
-          responsiveImage?: {
-            __typename?: 'ResponsiveImage'
-            aspectRatio: any
-            base64?: string | null
-            bgColor?: string | null
-            height: any
-            sizes: string
-            src: string
-            srcSet: string
-            webpSrcSet: string
-            width: any
-          } | null
-        } | null
-      }
-    | {
-        __typename?: 'PageRecord'
-        id: any
-        title?: string | null
-        description?: string | null
-        pageSlug?: string | null
-        image?: {
-          __typename?: 'FileField'
-          alt?: string | null
-          url: string
-          width?: any | null
-          height?: any | null
-          format: string
-          tags: Array<string>
-          title?: string | null
-          responsiveImage?: {
-            __typename?: 'ResponsiveImage'
-            aspectRatio: any
-            base64?: string | null
-            bgColor?: string | null
-            height: any
-            sizes: string
-            src: string
-            srcSet: string
-            webpSrcSet: string
-            width: any
-          } | null
-        } | null
-      }
-  >
-}
-
 export type ContentBlockFragment = {
   __typename?: 'ContentRecord'
   id: any
@@ -3829,6 +3773,7 @@ export type ListBlockFragment = {
     id: any
     title?: string | null
     description?: string | null
+    sold?: any | null
     pageSlug?: string | null
     image?: {
       __typename?: 'FileField'
@@ -3911,6 +3856,7 @@ export type PageListBlockFragment = {
       title?: string | null
       description?: string | null
       pageSlug?: string | null
+      sold?: any | null
       image?: {
         __typename?: 'FileField'
         alt?: string | null
@@ -4207,364 +4153,9 @@ export type FooterFragment = {
   }>
 }
 
-export type HomeFragment = {
-  __typename?: 'HomeRecord'
-  id: any
-  title?: string | null
-  description?: string | null
-  image?: {
-    __typename?: 'FileField'
-    alt?: string | null
-    url: string
-    width?: any | null
-    height?: any | null
-    format: string
-    tags: Array<string>
-    title?: string | null
-    responsiveImage?: {
-      __typename?: 'ResponsiveImage'
-      aspectRatio: any
-      base64?: string | null
-      bgColor?: string | null
-      height: any
-      sizes: string
-      src: string
-      srcSet: string
-      webpSrcSet: string
-      width: any
-    } | null
-  } | null
-  content: Array<
-    | {
-        __typename?: 'CardGridRecord'
-        id: any
-        showDescription?: any | null
-        pagination?: any | null
-        spacing?: any | null
-        centered?: any | null
-        shadow?: any | null
-        background?: { __typename?: 'ColorField'; hex: string } | null
-        links: Array<
-          | {
-              __typename?: 'LinkRecord'
-              id: any
-              url?: string | null
-              title?: string | null
-              image?: {
-                __typename?: 'FileField'
-                alt?: string | null
-                url: string
-                width?: any | null
-                height?: any | null
-                format: string
-                tags: Array<string>
-                title?: string | null
-                responsiveImage?: {
-                  __typename?: 'ResponsiveImage'
-                  aspectRatio: any
-                  base64?: string | null
-                  bgColor?: string | null
-                  height: any
-                  sizes: string
-                  src: string
-                  srcSet: string
-                  webpSrcSet: string
-                  width: any
-                } | null
-              } | null
-            }
-          | {
-              __typename?: 'PageRecord'
-              id: any
-              title?: string | null
-              description?: string | null
-              pageSlug?: string | null
-              image?: {
-                __typename?: 'FileField'
-                alt?: string | null
-                url: string
-                width?: any | null
-                height?: any | null
-                format: string
-                tags: Array<string>
-                title?: string | null
-                responsiveImage?: {
-                  __typename?: 'ResponsiveImage'
-                  aspectRatio: any
-                  base64?: string | null
-                  bgColor?: string | null
-                  height: any
-                  sizes: string
-                  src: string
-                  srcSet: string
-                  webpSrcSet: string
-                  width: any
-                } | null
-              } | null
-            }
-        >
-      }
-    | {
-        __typename?: 'ContentRecord'
-        id: any
-        center?: any | null
-        text?: string | null
-      }
-    | {
-        __typename?: 'GalleryRecord'
-        id: any
-        spacing?: any | null
-        images: Array<{
-          __typename?: 'FileField'
-          alt?: string | null
-          url: string
-          width?: any | null
-          height?: any | null
-          format: string
-          tags: Array<string>
-          title?: string | null
-          responsiveImage?: {
-            __typename?: 'ResponsiveImage'
-            aspectRatio: any
-            base64?: string | null
-            bgColor?: string | null
-            height: any
-            sizes: string
-            src: string
-            srcSet: string
-            webpSrcSet: string
-            width: any
-          } | null
-        }>
-      }
-    | {
-        __typename?: 'HeroRecord'
-        id: any
-        center?: any | null
-        description?: string | null
-        title?: string | null
-        subtitle?: string | null
-        ctaLabel?: string | null
-        contentBackground?: { __typename?: 'ColorField'; hex: string } | null
-        ctaLink?: { __typename?: 'PageRecord'; pageSlug?: string | null } | null
-        desktopImage?: {
-          __typename?: 'FileField'
-          alt?: string | null
-          url: string
-          width?: any | null
-          height?: any | null
-          format: string
-          tags: Array<string>
-          title?: string | null
-          responsiveImage?: {
-            __typename?: 'ResponsiveImage'
-            aspectRatio: any
-            base64?: string | null
-            bgColor?: string | null
-            height: any
-            sizes: string
-            src: string
-            srcSet: string
-            webpSrcSet: string
-            width: any
-          } | null
-        } | null
-        tabletImage?: {
-          __typename?: 'FileField'
-          alt?: string | null
-          url: string
-          width?: any | null
-          height?: any | null
-          format: string
-          tags: Array<string>
-          title?: string | null
-          responsiveImage?: {
-            __typename?: 'ResponsiveImage'
-            aspectRatio: any
-            base64?: string | null
-            bgColor?: string | null
-            height: any
-            sizes: string
-            src: string
-            srcSet: string
-            webpSrcSet: string
-            width: any
-          } | null
-        } | null
-        mobileImage?: {
-          __typename?: 'FileField'
-          alt?: string | null
-          url: string
-          width?: any | null
-          height?: any | null
-          format: string
-          tags: Array<string>
-          title?: string | null
-          responsiveImage?: {
-            __typename?: 'ResponsiveImage'
-            aspectRatio: any
-            base64?: string | null
-            bgColor?: string | null
-            height: any
-            sizes: string
-            src: string
-            srcSet: string
-            webpSrcSet: string
-            width: any
-          } | null
-        } | null
-      }
-    | {
-        __typename?: 'ListRecord'
-        id: any
-        listType?: string | null
-        size?: string | null
-        pagination?: any | null
-        links: Array<{
-          __typename?: 'PageRecord'
-          id: any
-          title?: string | null
-          description?: string | null
-          pageSlug?: string | null
-          image?: {
-            __typename?: 'FileField'
-            alt?: string | null
-            url: string
-            width?: any | null
-            height?: any | null
-            format: string
-            tags: Array<string>
-            title?: string | null
-            responsiveImage?: {
-              __typename?: 'ResponsiveImage'
-              aspectRatio: any
-              base64?: string | null
-              bgColor?: string | null
-              height: any
-              sizes: string
-              src: string
-              srcSet: string
-              webpSrcSet: string
-              width: any
-            } | null
-          } | null
-          parent?: {
-            __typename?: 'PageRecord'
-            pageSlug?: string | null
-          } | null
-        }>
-      }
-    | {
-        __typename?: 'MediaBlockRecord'
-        id: any
-        big?: any | null
-        image?: {
-          __typename?: 'FileField'
-          alt?: string | null
-          url: string
-          width?: any | null
-          height?: any | null
-          format: string
-          tags: Array<string>
-          title?: string | null
-          responsiveImage?: {
-            __typename?: 'ResponsiveImage'
-            aspectRatio: any
-            base64?: string | null
-            bgColor?: string | null
-            height: any
-            sizes: string
-            src: string
-            srcSet: string
-            webpSrcSet: string
-            width: any
-          } | null
-        } | null
-        video?: {
-          __typename?: 'FileField'
-          alt?: string | null
-          url: string
-          title?: string | null
-          video?: {
-            __typename?: 'UploadVideoField'
-            mp4Url?: string | null
-            streamingUrl: string
-            thumbnailUrl: string
-            mp4Low?: string | null
-          } | null
-        } | null
-      }
-    | {
-        __typename?: 'ShowcaseRecord'
-        id: any
-        alignImageLeft?: any | null
-        description?: string | null
-        title?: string | null
-        subtitle?: string | null
-        background?: { __typename?: 'ColorField'; hex: string } | null
-        image?: {
-          __typename?: 'FileField'
-          alt?: string | null
-          url: string
-          width?: any | null
-          height?: any | null
-          format: string
-          tags: Array<string>
-          title?: string | null
-          responsiveImage?: {
-            __typename?: 'ResponsiveImage'
-            aspectRatio: any
-            base64?: string | null
-            bgColor?: string | null
-            height: any
-            sizes: string
-            src: string
-            srcSet: string
-            webpSrcSet: string
-            width: any
-          } | null
-        } | null
-      }
-    | {
-        __typename?: 'TestimonialRecord'
-        id: any
-        quote?: string | null
-        authorName?: string | null
-        authorTitle?: string | null
-        background?: { __typename?: 'ColorField'; hex: string } | null
-        cta?: {
-          __typename?: 'CtaRecord'
-          url?: string | null
-          title?: string | null
-          link?:
-            | { __typename?: 'HomeRecord' }
-            | { __typename?: 'PageRecord'; id: any; pageSlug?: string | null }
-            | null
-        } | null
-        image?: {
-          __typename?: 'FileField'
-          alt?: string | null
-          url: string
-          width?: any | null
-          height?: any | null
-          format: string
-          tags: Array<string>
-          title?: string | null
-          responsiveImage?: {
-            __typename?: 'ResponsiveImage'
-            aspectRatio: any
-            base64?: string | null
-            bgColor?: string | null
-            height: any
-            sizes: string
-            src: string
-            srcSet: string
-            webpSrcSet: string
-            width: any
-          } | null
-        } | null
-      }
-  >
+export type GlobalFragment = {
+  __typename?: 'GlobalRecord'
+  sold?: string | null
 }
 
 export type NavItemFragment = {
@@ -4608,6 +4199,7 @@ export type PageFragment = {
   pageSlug?: string | null
   title?: string | null
   description?: string | null
+  sold?: any | null
   image?: {
     __typename?: 'FileField'
     alt?: string | null
@@ -4631,75 +4223,6 @@ export type PageFragment = {
     } | null
   } | null
   content: Array<
-    | {
-        __typename?: 'CardGridRecord'
-        id: any
-        showDescription?: any | null
-        pagination?: any | null
-        spacing?: any | null
-        centered?: any | null
-        shadow?: any | null
-        background?: { __typename?: 'ColorField'; hex: string } | null
-        links: Array<
-          | {
-              __typename?: 'LinkRecord'
-              id: any
-              url?: string | null
-              title?: string | null
-              image?: {
-                __typename?: 'FileField'
-                alt?: string | null
-                url: string
-                width?: any | null
-                height?: any | null
-                format: string
-                tags: Array<string>
-                title?: string | null
-                responsiveImage?: {
-                  __typename?: 'ResponsiveImage'
-                  aspectRatio: any
-                  base64?: string | null
-                  bgColor?: string | null
-                  height: any
-                  sizes: string
-                  src: string
-                  srcSet: string
-                  webpSrcSet: string
-                  width: any
-                } | null
-              } | null
-            }
-          | {
-              __typename?: 'PageRecord'
-              id: any
-              title?: string | null
-              description?: string | null
-              pageSlug?: string | null
-              image?: {
-                __typename?: 'FileField'
-                alt?: string | null
-                url: string
-                width?: any | null
-                height?: any | null
-                format: string
-                tags: Array<string>
-                title?: string | null
-                responsiveImage?: {
-                  __typename?: 'ResponsiveImage'
-                  aspectRatio: any
-                  base64?: string | null
-                  bgColor?: string | null
-                  height: any
-                  sizes: string
-                  src: string
-                  srcSet: string
-                  webpSrcSet: string
-                  width: any
-                } | null
-              } | null
-            }
-        >
-      }
     | {
         __typename?: 'ContentRecord'
         id: any
@@ -4821,6 +4344,7 @@ export type PageFragment = {
           id: any
           title?: string | null
           description?: string | null
+          sold?: any | null
           pageSlug?: string | null
           image?: {
             __typename?: 'FileField'
@@ -4904,6 +4428,7 @@ export type PageFragment = {
             title?: string | null
             description?: string | null
             pageSlug?: string | null
+            sold?: any | null
             image?: {
               __typename?: 'FileField'
               alt?: string | null
@@ -5057,6 +4582,7 @@ export type PageLinkFragment = {
   id: any
   title?: string | null
   description?: string | null
+  sold?: any | null
   pageSlug?: string | null
   image?: {
     __typename?: 'FileField'
@@ -5156,6 +4682,7 @@ export type BasePageQuery = {
       } | null
     }>
   } | null
+  global?: { __typename?: 'GlobalRecord'; sold?: string | null } | null
   _site: {
     __typename?: 'Site'
     globalSeo?: {
@@ -5196,376 +4723,6 @@ export type BasePageQuery = {
   }
 }
 
-export type HomePageQueryVariables = Exact<{
-  locale?: InputMaybe<SiteLocale>
-}>
-
-export type HomePageQuery = {
-  __typename?: 'Query'
-  home?: {
-    __typename?: 'HomeRecord'
-    id: any
-    title?: string | null
-    description?: string | null
-    image?: {
-      __typename?: 'FileField'
-      alt?: string | null
-      url: string
-      width?: any | null
-      height?: any | null
-      format: string
-      tags: Array<string>
-      title?: string | null
-      responsiveImage?: {
-        __typename?: 'ResponsiveImage'
-        aspectRatio: any
-        base64?: string | null
-        bgColor?: string | null
-        height: any
-        sizes: string
-        src: string
-        srcSet: string
-        webpSrcSet: string
-        width: any
-      } | null
-    } | null
-    content: Array<
-      | {
-          __typename?: 'CardGridRecord'
-          id: any
-          showDescription?: any | null
-          pagination?: any | null
-          spacing?: any | null
-          centered?: any | null
-          shadow?: any | null
-          background?: { __typename?: 'ColorField'; hex: string } | null
-          links: Array<
-            | {
-                __typename?: 'LinkRecord'
-                id: any
-                url?: string | null
-                title?: string | null
-                image?: {
-                  __typename?: 'FileField'
-                  alt?: string | null
-                  url: string
-                  width?: any | null
-                  height?: any | null
-                  format: string
-                  tags: Array<string>
-                  title?: string | null
-                  responsiveImage?: {
-                    __typename?: 'ResponsiveImage'
-                    aspectRatio: any
-                    base64?: string | null
-                    bgColor?: string | null
-                    height: any
-                    sizes: string
-                    src: string
-                    srcSet: string
-                    webpSrcSet: string
-                    width: any
-                  } | null
-                } | null
-              }
-            | {
-                __typename?: 'PageRecord'
-                id: any
-                title?: string | null
-                description?: string | null
-                pageSlug?: string | null
-                image?: {
-                  __typename?: 'FileField'
-                  alt?: string | null
-                  url: string
-                  width?: any | null
-                  height?: any | null
-                  format: string
-                  tags: Array<string>
-                  title?: string | null
-                  responsiveImage?: {
-                    __typename?: 'ResponsiveImage'
-                    aspectRatio: any
-                    base64?: string | null
-                    bgColor?: string | null
-                    height: any
-                    sizes: string
-                    src: string
-                    srcSet: string
-                    webpSrcSet: string
-                    width: any
-                  } | null
-                } | null
-              }
-          >
-        }
-      | {
-          __typename?: 'ContentRecord'
-          id: any
-          center?: any | null
-          text?: string | null
-        }
-      | {
-          __typename?: 'GalleryRecord'
-          id: any
-          spacing?: any | null
-          images: Array<{
-            __typename?: 'FileField'
-            alt?: string | null
-            url: string
-            width?: any | null
-            height?: any | null
-            format: string
-            tags: Array<string>
-            title?: string | null
-            responsiveImage?: {
-              __typename?: 'ResponsiveImage'
-              aspectRatio: any
-              base64?: string | null
-              bgColor?: string | null
-              height: any
-              sizes: string
-              src: string
-              srcSet: string
-              webpSrcSet: string
-              width: any
-            } | null
-          }>
-        }
-      | {
-          __typename?: 'HeroRecord'
-          id: any
-          center?: any | null
-          description?: string | null
-          title?: string | null
-          subtitle?: string | null
-          ctaLabel?: string | null
-          contentBackground?: { __typename?: 'ColorField'; hex: string } | null
-          ctaLink?: {
-            __typename?: 'PageRecord'
-            pageSlug?: string | null
-          } | null
-          desktopImage?: {
-            __typename?: 'FileField'
-            alt?: string | null
-            url: string
-            width?: any | null
-            height?: any | null
-            format: string
-            tags: Array<string>
-            title?: string | null
-            responsiveImage?: {
-              __typename?: 'ResponsiveImage'
-              aspectRatio: any
-              base64?: string | null
-              bgColor?: string | null
-              height: any
-              sizes: string
-              src: string
-              srcSet: string
-              webpSrcSet: string
-              width: any
-            } | null
-          } | null
-          tabletImage?: {
-            __typename?: 'FileField'
-            alt?: string | null
-            url: string
-            width?: any | null
-            height?: any | null
-            format: string
-            tags: Array<string>
-            title?: string | null
-            responsiveImage?: {
-              __typename?: 'ResponsiveImage'
-              aspectRatio: any
-              base64?: string | null
-              bgColor?: string | null
-              height: any
-              sizes: string
-              src: string
-              srcSet: string
-              webpSrcSet: string
-              width: any
-            } | null
-          } | null
-          mobileImage?: {
-            __typename?: 'FileField'
-            alt?: string | null
-            url: string
-            width?: any | null
-            height?: any | null
-            format: string
-            tags: Array<string>
-            title?: string | null
-            responsiveImage?: {
-              __typename?: 'ResponsiveImage'
-              aspectRatio: any
-              base64?: string | null
-              bgColor?: string | null
-              height: any
-              sizes: string
-              src: string
-              srcSet: string
-              webpSrcSet: string
-              width: any
-            } | null
-          } | null
-        }
-      | {
-          __typename?: 'ListRecord'
-          id: any
-          listType?: string | null
-          size?: string | null
-          pagination?: any | null
-          links: Array<{
-            __typename?: 'PageRecord'
-            id: any
-            title?: string | null
-            description?: string | null
-            pageSlug?: string | null
-            image?: {
-              __typename?: 'FileField'
-              alt?: string | null
-              url: string
-              width?: any | null
-              height?: any | null
-              format: string
-              tags: Array<string>
-              title?: string | null
-              responsiveImage?: {
-                __typename?: 'ResponsiveImage'
-                aspectRatio: any
-                base64?: string | null
-                bgColor?: string | null
-                height: any
-                sizes: string
-                src: string
-                srcSet: string
-                webpSrcSet: string
-                width: any
-              } | null
-            } | null
-            parent?: {
-              __typename?: 'PageRecord'
-              pageSlug?: string | null
-            } | null
-          }>
-        }
-      | {
-          __typename?: 'MediaBlockRecord'
-          id: any
-          big?: any | null
-          image?: {
-            __typename?: 'FileField'
-            alt?: string | null
-            url: string
-            width?: any | null
-            height?: any | null
-            format: string
-            tags: Array<string>
-            title?: string | null
-            responsiveImage?: {
-              __typename?: 'ResponsiveImage'
-              aspectRatio: any
-              base64?: string | null
-              bgColor?: string | null
-              height: any
-              sizes: string
-              src: string
-              srcSet: string
-              webpSrcSet: string
-              width: any
-            } | null
-          } | null
-          video?: {
-            __typename?: 'FileField'
-            alt?: string | null
-            url: string
-            title?: string | null
-            video?: {
-              __typename?: 'UploadVideoField'
-              mp4Url?: string | null
-              streamingUrl: string
-              thumbnailUrl: string
-              mp4Low?: string | null
-            } | null
-          } | null
-        }
-      | {
-          __typename?: 'ShowcaseRecord'
-          id: any
-          alignImageLeft?: any | null
-          description?: string | null
-          title?: string | null
-          subtitle?: string | null
-          background?: { __typename?: 'ColorField'; hex: string } | null
-          image?: {
-            __typename?: 'FileField'
-            alt?: string | null
-            url: string
-            width?: any | null
-            height?: any | null
-            format: string
-            tags: Array<string>
-            title?: string | null
-            responsiveImage?: {
-              __typename?: 'ResponsiveImage'
-              aspectRatio: any
-              base64?: string | null
-              bgColor?: string | null
-              height: any
-              sizes: string
-              src: string
-              srcSet: string
-              webpSrcSet: string
-              width: any
-            } | null
-          } | null
-        }
-      | {
-          __typename?: 'TestimonialRecord'
-          id: any
-          quote?: string | null
-          authorName?: string | null
-          authorTitle?: string | null
-          background?: { __typename?: 'ColorField'; hex: string } | null
-          cta?: {
-            __typename?: 'CtaRecord'
-            url?: string | null
-            title?: string | null
-            link?:
-              | { __typename?: 'HomeRecord' }
-              | { __typename?: 'PageRecord'; id: any; pageSlug?: string | null }
-              | null
-          } | null
-          image?: {
-            __typename?: 'FileField'
-            alt?: string | null
-            url: string
-            width?: any | null
-            height?: any | null
-            format: string
-            tags: Array<string>
-            title?: string | null
-            responsiveImage?: {
-              __typename?: 'ResponsiveImage'
-              aspectRatio: any
-              base64?: string | null
-              bgColor?: string | null
-              height: any
-              sizes: string
-              src: string
-              srcSet: string
-              webpSrcSet: string
-              width: any
-            } | null
-          } | null
-        }
-    >
-  } | null
-}
-
 export type PageQueryVariables = Exact<{
   locale?: InputMaybe<SiteLocale>
   slug: Scalars['String']['input']
@@ -5579,6 +4736,7 @@ export type PageQuery = {
     pageSlug?: string | null
     title?: string | null
     description?: string | null
+    sold?: any | null
     image?: {
       __typename?: 'FileField'
       alt?: string | null
@@ -5602,75 +4760,6 @@ export type PageQuery = {
       } | null
     } | null
     content: Array<
-      | {
-          __typename?: 'CardGridRecord'
-          id: any
-          showDescription?: any | null
-          pagination?: any | null
-          spacing?: any | null
-          centered?: any | null
-          shadow?: any | null
-          background?: { __typename?: 'ColorField'; hex: string } | null
-          links: Array<
-            | {
-                __typename?: 'LinkRecord'
-                id: any
-                url?: string | null
-                title?: string | null
-                image?: {
-                  __typename?: 'FileField'
-                  alt?: string | null
-                  url: string
-                  width?: any | null
-                  height?: any | null
-                  format: string
-                  tags: Array<string>
-                  title?: string | null
-                  responsiveImage?: {
-                    __typename?: 'ResponsiveImage'
-                    aspectRatio: any
-                    base64?: string | null
-                    bgColor?: string | null
-                    height: any
-                    sizes: string
-                    src: string
-                    srcSet: string
-                    webpSrcSet: string
-                    width: any
-                  } | null
-                } | null
-              }
-            | {
-                __typename?: 'PageRecord'
-                id: any
-                title?: string | null
-                description?: string | null
-                pageSlug?: string | null
-                image?: {
-                  __typename?: 'FileField'
-                  alt?: string | null
-                  url: string
-                  width?: any | null
-                  height?: any | null
-                  format: string
-                  tags: Array<string>
-                  title?: string | null
-                  responsiveImage?: {
-                    __typename?: 'ResponsiveImage'
-                    aspectRatio: any
-                    base64?: string | null
-                    bgColor?: string | null
-                    height: any
-                    sizes: string
-                    src: string
-                    srcSet: string
-                    webpSrcSet: string
-                    width: any
-                  } | null
-                } | null
-              }
-          >
-        }
       | {
           __typename?: 'ContentRecord'
           id: any
@@ -5795,6 +4884,7 @@ export type PageQuery = {
             id: any
             title?: string | null
             description?: string | null
+            sold?: any | null
             pageSlug?: string | null
             image?: {
               __typename?: 'FileField'
@@ -5878,6 +4968,7 @@ export type PageQuery = {
               title?: string | null
               description?: string | null
               pageSlug?: string | null
+              sold?: any | null
               image?: {
                 __typename?: 'FileField'
                 alt?: string | null
@@ -6439,6 +5530,142 @@ export const FooterFragmentDoc = {
     },
   ],
 } as unknown as DocumentNode<FooterFragment, unknown>
+export const GlobalFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'global' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'GlobalRecord' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [{ kind: 'Field', name: { kind: 'Name', value: 'sold' } }],
+      },
+    },
+  ],
+} as unknown as DocumentNode<GlobalFragment, unknown>
+export const NavLinkFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'navLink' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'PageRecord' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'pageSlug' } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<NavLinkFragment, unknown>
+export const NavItemFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'navItem' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'NavItemRecord' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'url' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'pageLink' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'navLink' },
+                },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'children' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'pageLink' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'FragmentSpread',
+                        name: { kind: 'Name', value: 'navLink' },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'children' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'pageLink' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'FragmentSpread',
+                              name: { kind: 'Name', value: 'navLink' },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'navLink' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'PageRecord' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'pageSlug' } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<NavItemFragment, unknown>
 export const Image169FragmentDoc = {
   kind: 'Document',
   definitions: [
@@ -6561,236 +5788,6 @@ export const Image169FragmentDoc = {
     },
   ],
 } as unknown as DocumentNode<Image169Fragment, unknown>
-export const CardGridBlockFragmentDoc = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'cardGridBlock' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'CardGridRecord' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'showDescription' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'pagination' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'background' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'hex' } },
-              ],
-            },
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'spacing' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'centered' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'shadow' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'links' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'InlineFragment',
-                  typeCondition: {
-                    kind: 'NamedType',
-                    name: { kind: 'Name', value: 'PageRecord' },
-                  },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'description' },
-                        arguments: [
-                          {
-                            kind: 'Argument',
-                            name: { kind: 'Name', value: 'markdown' },
-                            value: { kind: 'BooleanValue', value: true },
-                          },
-                        ],
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'pageSlug' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'image' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'FragmentSpread',
-                              name: { kind: 'Name', value: 'image1' },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-                {
-                  kind: 'InlineFragment',
-                  typeCondition: {
-                    kind: 'NamedType',
-                    name: { kind: 'Name', value: 'LinkRecord' },
-                  },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'image' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'FragmentSpread',
-                              name: { kind: 'Name', value: 'image1' },
-                            },
-                          ],
-                        },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'url' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'imageBase' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'FileField' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'alt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'url' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'width' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'height' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'format' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'tags' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'responsiveImage' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'ResponsiveImage' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'aspectRatio' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'base64' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'bgColor' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'height' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'sizes' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'src' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'srcSet' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'webpSrcSet' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'width' } },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'image1' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'FileField' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'FragmentSpread',
-            name: { kind: 'Name', value: 'imageBase' },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'responsiveImage' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'locale' },
-                value: { kind: 'EnumValue', value: 'en' },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'imgixParams' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'fit' },
-                      value: { kind: 'EnumValue', value: 'crop' },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'crop' },
-                      value: { kind: 'EnumValue', value: 'focalpoint' },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'ar' },
-                      value: {
-                        kind: 'StringValue',
-                        value: '1:1',
-                        block: false,
-                      },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'fm' },
-                      value: { kind: 'EnumValue', value: 'jpg' },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'q' },
-                      value: { kind: 'IntValue', value: '100' },
-                    },
-                  ],
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'responsiveImage' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<CardGridBlockFragment, unknown>
 export const ContentBlockFragmentDoc = {
   kind: 'Document',
   definitions: [
@@ -7423,6 +6420,7 @@ export const PageLinkFragmentDoc = {
               },
             ],
           },
+          { kind: 'Field', name: { kind: 'Name', value: 'sold' } },
           { kind: 'Field', name: { kind: 'Name', value: 'pageSlug' } },
           {
             kind: 'Field',
@@ -7742,6 +6740,7 @@ export const ListBlockFragmentDoc = {
               },
             ],
           },
+          { kind: 'Field', name: { kind: 'Name', value: 'sold' } },
           { kind: 'Field', name: { kind: 'Name', value: 'pageSlug' } },
           {
             kind: 'Field',
@@ -8588,1132 +7587,6 @@ export const TestimonialBlockFragmentDoc = {
     },
   ],
 } as unknown as DocumentNode<TestimonialBlockFragment, unknown>
-export const HomeFragmentDoc = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'home' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'HomeRecord' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'description' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'markdown' },
-                value: { kind: 'BooleanValue', value: true },
-              },
-            ],
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'image' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'image169' },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'content' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'cardGridBlock' },
-                },
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'contentBlock' },
-                },
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'galleryBlock' },
-                },
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'heroBlock' },
-                },
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'listBlock' },
-                },
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'mediaBlock' },
-                },
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'showcaseBlock' },
-                },
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'testimonialBlock' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'imageBase' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'FileField' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'alt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'url' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'width' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'height' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'format' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'tags' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'responsiveImage' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'ResponsiveImage' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'aspectRatio' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'base64' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'bgColor' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'height' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'sizes' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'src' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'srcSet' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'webpSrcSet' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'width' } },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'image1' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'FileField' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'FragmentSpread',
-            name: { kind: 'Name', value: 'imageBase' },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'responsiveImage' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'locale' },
-                value: { kind: 'EnumValue', value: 'en' },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'imgixParams' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'fit' },
-                      value: { kind: 'EnumValue', value: 'crop' },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'crop' },
-                      value: { kind: 'EnumValue', value: 'focalpoint' },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'ar' },
-                      value: {
-                        kind: 'StringValue',
-                        value: '1:1',
-                        block: false,
-                      },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'fm' },
-                      value: { kind: 'EnumValue', value: 'jpg' },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'q' },
-                      value: { kind: 'IntValue', value: '100' },
-                    },
-                  ],
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'responsiveImage' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'image34' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'FileField' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'FragmentSpread',
-            name: { kind: 'Name', value: 'imageBase' },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'responsiveImage' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'locale' },
-                value: { kind: 'EnumValue', value: 'en' },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'imgixParams' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'fit' },
-                      value: { kind: 'EnumValue', value: 'crop' },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'crop' },
-                      value: { kind: 'EnumValue', value: 'focalpoint' },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'ar' },
-                      value: {
-                        kind: 'StringValue',
-                        value: '3:4',
-                        block: false,
-                      },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'fm' },
-                      value: { kind: 'EnumValue', value: 'jpg' },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'q' },
-                      value: { kind: 'IntValue', value: '100' },
-                    },
-                  ],
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'responsiveImage' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'image169' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'FileField' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'FragmentSpread',
-            name: { kind: 'Name', value: 'imageBase' },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'responsiveImage' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'locale' },
-                value: { kind: 'EnumValue', value: 'en' },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'imgixParams' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'fit' },
-                      value: { kind: 'EnumValue', value: 'crop' },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'crop' },
-                      value: { kind: 'EnumValue', value: 'focalpoint' },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'ar' },
-                      value: {
-                        kind: 'StringValue',
-                        value: '16:9',
-                        block: false,
-                      },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'fm' },
-                      value: { kind: 'EnumValue', value: 'jpg' },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'q' },
-                      value: { kind: 'IntValue', value: '100' },
-                    },
-                  ],
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'responsiveImage' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'pageLink' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'PageRecord' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'description' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'markdown' },
-                value: { kind: 'BooleanValue', value: true },
-              },
-            ],
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'pageSlug' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'image' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'image1' },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'parent' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'pageSlug' } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'image43' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'FileField' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'FragmentSpread',
-            name: { kind: 'Name', value: 'imageBase' },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'responsiveImage' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'locale' },
-                value: { kind: 'EnumValue', value: 'en' },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'imgixParams' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'fit' },
-                      value: { kind: 'EnumValue', value: 'crop' },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'crop' },
-                      value: { kind: 'EnumValue', value: 'focalpoint' },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'ar' },
-                      value: {
-                        kind: 'StringValue',
-                        value: '4:3',
-                        block: false,
-                      },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'fm' },
-                      value: { kind: 'EnumValue', value: 'jpg' },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'q' },
-                      value: { kind: 'IntValue', value: '100' },
-                    },
-                  ],
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'responsiveImage' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'video' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'FileField' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'alt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'url' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'video' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'mp4Url' } },
-                {
-                  kind: 'Field',
-                  alias: { kind: 'Name', value: 'mp4Low' },
-                  name: { kind: 'Name', value: 'mp4Url' },
-                  arguments: [
-                    {
-                      kind: 'Argument',
-                      name: { kind: 'Name', value: 'res' },
-                      value: { kind: 'EnumValue', value: 'low' },
-                    },
-                  ],
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'streamingUrl' },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'thumbnailUrl' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'cta' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'CtaRecord' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'url' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'link' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'InlineFragment',
-                  typeCondition: {
-                    kind: 'NamedType',
-                    name: { kind: 'Name', value: 'PageRecord' },
-                  },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'pageSlug' },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'cardGridBlock' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'CardGridRecord' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'showDescription' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'pagination' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'background' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'hex' } },
-              ],
-            },
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'spacing' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'centered' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'shadow' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'links' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'InlineFragment',
-                  typeCondition: {
-                    kind: 'NamedType',
-                    name: { kind: 'Name', value: 'PageRecord' },
-                  },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'description' },
-                        arguments: [
-                          {
-                            kind: 'Argument',
-                            name: { kind: 'Name', value: 'markdown' },
-                            value: { kind: 'BooleanValue', value: true },
-                          },
-                        ],
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'pageSlug' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'image' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'FragmentSpread',
-                              name: { kind: 'Name', value: 'image1' },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-                {
-                  kind: 'InlineFragment',
-                  typeCondition: {
-                    kind: 'NamedType',
-                    name: { kind: 'Name', value: 'LinkRecord' },
-                  },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'image' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'FragmentSpread',
-                              name: { kind: 'Name', value: 'image1' },
-                            },
-                          ],
-                        },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'url' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'contentBlock' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'ContentRecord' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'center' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'text' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'markdown' },
-                value: { kind: 'BooleanValue', value: true },
-              },
-            ],
-          },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'galleryBlock' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'GalleryRecord' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'images' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'image1' },
-                },
-              ],
-            },
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'spacing' } },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'heroBlock' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'HeroRecord' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'center' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'contentBackground' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'hex' } },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'description' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'markdown' },
-                value: { kind: 'BooleanValue', value: true },
-              },
-            ],
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'subtitle' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'ctaLabel' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'ctaLink' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'InlineFragment',
-                  typeCondition: {
-                    kind: 'NamedType',
-                    name: { kind: 'Name', value: 'PageRecord' },
-                  },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'pageSlug' },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            alias: { kind: 'Name', value: 'desktopImage' },
-            name: { kind: 'Name', value: 'image' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'image34' },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            alias: { kind: 'Name', value: 'tabletImage' },
-            name: { kind: 'Name', value: 'image' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'image169' },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            alias: { kind: 'Name', value: 'mobileImage' },
-            name: { kind: 'Name', value: 'image' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'image169' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'listBlock' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'ListRecord' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'listType' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'size' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'pagination' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'links' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'pageLink' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'mediaBlock' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'MediaBlockRecord' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'big' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'image' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'image43' },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'video' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'video' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'showcaseBlock' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'ShowcaseRecord' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'alignImageLeft' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'background' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'hex' } },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'description' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'markdown' },
-                value: { kind: 'BooleanValue', value: true },
-              },
-            ],
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'subtitle' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'image' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'image1' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'testimonialBlock' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'TestimonialRecord' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'quote' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'authorName' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'authorTitle' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'background' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'hex' } },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'cta' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'cta' },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'image' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'image1' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<HomeFragment, unknown>
-export const NavLinkFragmentDoc = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'navLink' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'PageRecord' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'pageSlug' } },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<NavLinkFragment, unknown>
-export const NavItemFragmentDoc = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'navItem' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'NavItemRecord' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'url' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'pageLink' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'navLink' },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'children' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'pageLink' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'FragmentSpread',
-                        name: { kind: 'Name', value: 'navLink' },
-                      },
-                    ],
-                  },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'children' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'pageLink' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'FragmentSpread',
-                              name: { kind: 'Name', value: 'navLink' },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'navLink' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'PageRecord' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'pageSlug' } },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<NavItemFragment, unknown>
 export const PageListBlockFragmentDoc = {
   kind: 'Document',
   definitions: [
@@ -9778,6 +7651,7 @@ export const PageListBlockFragmentDoc = {
                           ],
                         },
                       },
+                      { kind: 'Field', name: { kind: 'Name', value: 'sold' } },
                     ],
                   },
                 },
@@ -9947,16 +7821,13 @@ export const PageFragmentDoc = {
               ],
             },
           },
+          { kind: 'Field', name: { kind: 'Name', value: 'sold' } },
           {
             kind: 'Field',
             name: { kind: 'Name', value: 'content' },
             selectionSet: {
               kind: 'SelectionSet',
               selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'cardGridBlock' },
-                },
                 {
                   kind: 'FragmentSpread',
                   name: { kind: 'Name', value: 'contentBlock' },
@@ -10285,6 +8156,7 @@ export const PageFragmentDoc = {
               },
             ],
           },
+          { kind: 'Field', name: { kind: 'Name', value: 'sold' } },
           { kind: 'Field', name: { kind: 'Name', value: 'pageSlug' } },
           {
             kind: 'Field',
@@ -10465,114 +8337,6 @@ export const PageFragmentDoc = {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'pageSlug' },
                       },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'cardGridBlock' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'CardGridRecord' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'showDescription' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'pagination' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'background' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'hex' } },
-              ],
-            },
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'spacing' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'centered' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'shadow' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'links' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'InlineFragment',
-                  typeCondition: {
-                    kind: 'NamedType',
-                    name: { kind: 'Name', value: 'PageRecord' },
-                  },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'description' },
-                        arguments: [
-                          {
-                            kind: 'Argument',
-                            name: { kind: 'Name', value: 'markdown' },
-                            value: { kind: 'BooleanValue', value: true },
-                          },
-                        ],
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'pageSlug' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'image' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'FragmentSpread',
-                              name: { kind: 'Name', value: 'image1' },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-                {
-                  kind: 'InlineFragment',
-                  typeCondition: {
-                    kind: 'NamedType',
-                    name: { kind: 'Name', value: 'LinkRecord' },
-                  },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'image' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'FragmentSpread',
-                              name: { kind: 'Name', value: 'image1' },
-                            },
-                          ],
-                        },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'url' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'title' } },
                     ],
                   },
                 },
@@ -10978,6 +8742,7 @@ export const PageFragmentDoc = {
                           ],
                         },
                       },
+                      { kind: 'Field', name: { kind: 'Name', value: 'sold' } },
                     ],
                   },
                 },
@@ -11273,6 +9038,29 @@ export const BasePageDocument = {
           },
           {
             kind: 'Field',
+            name: { kind: 'Name', value: 'global' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'locale' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'locale' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'global' },
+                },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
             name: { kind: 'Name', value: '_site' },
             arguments: [
               {
@@ -11549,6 +9337,18 @@ export const BasePageDocument = {
     },
     {
       kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'global' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'GlobalRecord' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [{ kind: 'Field', name: { kind: 'Name', value: 'sold' } }],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
       name: { kind: 'Name', value: 'site' },
       typeCondition: {
         kind: 'NamedType',
@@ -11612,1059 +9412,6 @@ export const BasePageDocument = {
     },
   ],
 } as unknown as DocumentNode<BasePageQuery, BasePageQueryVariables>
-export const HomePageDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'HomePage' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'locale' },
-          },
-          type: {
-            kind: 'NamedType',
-            name: { kind: 'Name', value: 'SiteLocale' },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'home' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'locale' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'locale' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'home' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'imageBase' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'FileField' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'alt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'url' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'width' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'height' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'format' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'tags' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'responsiveImage' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'ResponsiveImage' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'aspectRatio' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'base64' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'bgColor' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'height' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'sizes' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'src' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'srcSet' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'webpSrcSet' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'width' } },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'image169' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'FileField' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'FragmentSpread',
-            name: { kind: 'Name', value: 'imageBase' },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'responsiveImage' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'locale' },
-                value: { kind: 'EnumValue', value: 'en' },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'imgixParams' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'fit' },
-                      value: { kind: 'EnumValue', value: 'crop' },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'crop' },
-                      value: { kind: 'EnumValue', value: 'focalpoint' },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'ar' },
-                      value: {
-                        kind: 'StringValue',
-                        value: '16:9',
-                        block: false,
-                      },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'fm' },
-                      value: { kind: 'EnumValue', value: 'jpg' },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'q' },
-                      value: { kind: 'IntValue', value: '100' },
-                    },
-                  ],
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'responsiveImage' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'image1' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'FileField' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'FragmentSpread',
-            name: { kind: 'Name', value: 'imageBase' },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'responsiveImage' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'locale' },
-                value: { kind: 'EnumValue', value: 'en' },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'imgixParams' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'fit' },
-                      value: { kind: 'EnumValue', value: 'crop' },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'crop' },
-                      value: { kind: 'EnumValue', value: 'focalpoint' },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'ar' },
-                      value: {
-                        kind: 'StringValue',
-                        value: '1:1',
-                        block: false,
-                      },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'fm' },
-                      value: { kind: 'EnumValue', value: 'jpg' },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'q' },
-                      value: { kind: 'IntValue', value: '100' },
-                    },
-                  ],
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'responsiveImage' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'cardGridBlock' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'CardGridRecord' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'showDescription' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'pagination' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'background' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'hex' } },
-              ],
-            },
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'spacing' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'centered' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'shadow' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'links' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'InlineFragment',
-                  typeCondition: {
-                    kind: 'NamedType',
-                    name: { kind: 'Name', value: 'PageRecord' },
-                  },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'description' },
-                        arguments: [
-                          {
-                            kind: 'Argument',
-                            name: { kind: 'Name', value: 'markdown' },
-                            value: { kind: 'BooleanValue', value: true },
-                          },
-                        ],
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'pageSlug' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'image' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'FragmentSpread',
-                              name: { kind: 'Name', value: 'image1' },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-                {
-                  kind: 'InlineFragment',
-                  typeCondition: {
-                    kind: 'NamedType',
-                    name: { kind: 'Name', value: 'LinkRecord' },
-                  },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'image' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'FragmentSpread',
-                              name: { kind: 'Name', value: 'image1' },
-                            },
-                          ],
-                        },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'url' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'contentBlock' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'ContentRecord' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'center' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'text' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'markdown' },
-                value: { kind: 'BooleanValue', value: true },
-              },
-            ],
-          },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'galleryBlock' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'GalleryRecord' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'images' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'image1' },
-                },
-              ],
-            },
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'spacing' } },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'image34' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'FileField' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'FragmentSpread',
-            name: { kind: 'Name', value: 'imageBase' },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'responsiveImage' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'locale' },
-                value: { kind: 'EnumValue', value: 'en' },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'imgixParams' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'fit' },
-                      value: { kind: 'EnumValue', value: 'crop' },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'crop' },
-                      value: { kind: 'EnumValue', value: 'focalpoint' },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'ar' },
-                      value: {
-                        kind: 'StringValue',
-                        value: '3:4',
-                        block: false,
-                      },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'fm' },
-                      value: { kind: 'EnumValue', value: 'jpg' },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'q' },
-                      value: { kind: 'IntValue', value: '100' },
-                    },
-                  ],
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'responsiveImage' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'heroBlock' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'HeroRecord' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'center' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'contentBackground' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'hex' } },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'description' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'markdown' },
-                value: { kind: 'BooleanValue', value: true },
-              },
-            ],
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'subtitle' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'ctaLabel' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'ctaLink' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'InlineFragment',
-                  typeCondition: {
-                    kind: 'NamedType',
-                    name: { kind: 'Name', value: 'PageRecord' },
-                  },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'pageSlug' },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            alias: { kind: 'Name', value: 'desktopImage' },
-            name: { kind: 'Name', value: 'image' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'image34' },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            alias: { kind: 'Name', value: 'tabletImage' },
-            name: { kind: 'Name', value: 'image' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'image169' },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            alias: { kind: 'Name', value: 'mobileImage' },
-            name: { kind: 'Name', value: 'image' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'image169' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'pageLink' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'PageRecord' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'description' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'markdown' },
-                value: { kind: 'BooleanValue', value: true },
-              },
-            ],
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'pageSlug' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'image' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'image1' },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'parent' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'pageSlug' } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'listBlock' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'ListRecord' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'listType' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'size' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'pagination' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'links' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'pageLink' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'image43' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'FileField' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'FragmentSpread',
-            name: { kind: 'Name', value: 'imageBase' },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'responsiveImage' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'locale' },
-                value: { kind: 'EnumValue', value: 'en' },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'imgixParams' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'fit' },
-                      value: { kind: 'EnumValue', value: 'crop' },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'crop' },
-                      value: { kind: 'EnumValue', value: 'focalpoint' },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'ar' },
-                      value: {
-                        kind: 'StringValue',
-                        value: '4:3',
-                        block: false,
-                      },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'fm' },
-                      value: { kind: 'EnumValue', value: 'jpg' },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'q' },
-                      value: { kind: 'IntValue', value: '100' },
-                    },
-                  ],
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'responsiveImage' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'video' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'FileField' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'alt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'url' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'video' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'mp4Url' } },
-                {
-                  kind: 'Field',
-                  alias: { kind: 'Name', value: 'mp4Low' },
-                  name: { kind: 'Name', value: 'mp4Url' },
-                  arguments: [
-                    {
-                      kind: 'Argument',
-                      name: { kind: 'Name', value: 'res' },
-                      value: { kind: 'EnumValue', value: 'low' },
-                    },
-                  ],
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'streamingUrl' },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'thumbnailUrl' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'mediaBlock' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'MediaBlockRecord' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'big' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'image' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'image43' },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'video' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'video' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'showcaseBlock' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'ShowcaseRecord' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'alignImageLeft' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'background' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'hex' } },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'description' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'markdown' },
-                value: { kind: 'BooleanValue', value: true },
-              },
-            ],
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'subtitle' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'image' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'image1' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'cta' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'CtaRecord' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'url' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'link' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'InlineFragment',
-                  typeCondition: {
-                    kind: 'NamedType',
-                    name: { kind: 'Name', value: 'PageRecord' },
-                  },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'pageSlug' },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'testimonialBlock' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'TestimonialRecord' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'quote' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'authorName' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'authorTitle' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'background' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'hex' } },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'cta' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'cta' },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'image' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'image1' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'home' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'HomeRecord' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'description' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'markdown' },
-                value: { kind: 'BooleanValue', value: true },
-              },
-            ],
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'image' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'image169' },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'content' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'cardGridBlock' },
-                },
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'contentBlock' },
-                },
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'galleryBlock' },
-                },
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'heroBlock' },
-                },
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'listBlock' },
-                },
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'mediaBlock' },
-                },
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'showcaseBlock' },
-                },
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'testimonialBlock' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<HomePageQuery, HomePageQueryVariables>
 export const PageDocument = {
   kind: 'Document',
   definitions: [
@@ -12870,6 +9617,32 @@ export const PageDocument = {
     },
     {
       kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'contentBlock' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'ContentRecord' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'center' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'text' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'markdown' },
+                value: { kind: 'BooleanValue', value: true },
+              },
+            ],
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
       name: { kind: 'Name', value: 'image1' },
       typeCondition: {
         kind: 'NamedType',
@@ -12939,140 +9712,6 @@ export const PageDocument = {
                 },
               ],
             },
-          },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'cardGridBlock' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'CardGridRecord' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'showDescription' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'pagination' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'background' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'hex' } },
-              ],
-            },
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'spacing' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'centered' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'shadow' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'links' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'InlineFragment',
-                  typeCondition: {
-                    kind: 'NamedType',
-                    name: { kind: 'Name', value: 'PageRecord' },
-                  },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'description' },
-                        arguments: [
-                          {
-                            kind: 'Argument',
-                            name: { kind: 'Name', value: 'markdown' },
-                            value: { kind: 'BooleanValue', value: true },
-                          },
-                        ],
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'pageSlug' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'image' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'FragmentSpread',
-                              name: { kind: 'Name', value: 'image1' },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-                {
-                  kind: 'InlineFragment',
-                  typeCondition: {
-                    kind: 'NamedType',
-                    name: { kind: 'Name', value: 'LinkRecord' },
-                  },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'image' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'FragmentSpread',
-                              name: { kind: 'Name', value: 'image1' },
-                            },
-                          ],
-                        },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'url' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'contentBlock' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'ContentRecord' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'center' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'text' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'markdown' },
-                value: { kind: 'BooleanValue', value: true },
-              },
-            ],
           },
         ],
       },
@@ -13309,6 +9948,7 @@ export const PageDocument = {
               },
             ],
           },
+          { kind: 'Field', name: { kind: 'Name', value: 'sold' } },
           { kind: 'Field', name: { kind: 'Name', value: 'pageSlug' } },
           {
             kind: 'Field',
@@ -13734,6 +10374,7 @@ export const PageDocument = {
                           ],
                         },
                       },
+                      { kind: 'Field', name: { kind: 'Name', value: 'sold' } },
                     ],
                   },
                 },
@@ -13781,16 +10422,13 @@ export const PageDocument = {
               ],
             },
           },
+          { kind: 'Field', name: { kind: 'Name', value: 'sold' } },
           {
             kind: 'Field',
             name: { kind: 'Name', value: 'content' },
             selectionSet: {
               kind: 'SelectionSet',
               selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'cardGridBlock' },
-                },
                 {
                   kind: 'FragmentSpread',
                   name: { kind: 'Name', value: 'contentBlock' },

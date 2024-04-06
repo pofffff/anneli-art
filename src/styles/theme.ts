@@ -129,3 +129,12 @@ export const borderRadius = {
 } as const
 
 export type Breakpoint = keyof typeof breakpoints
+
+export const aspectRatios = {
+  listItem: '1',
+  heroDesktop: '3/4',
+  heroTablet: '16/9',
+  heroMobile: '16/9',
+  content: '1',
+  showcase: '1',
+}

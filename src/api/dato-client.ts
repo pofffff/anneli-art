@@ -1,8 +1,6 @@
 import {
   BasePageDocument,
   BasePageProps,
-  HomeFragment,
-  HomePageDocument,
   PageDocument,
   PageFragment,
   SiteLocale,
@@ -29,16 +27,6 @@ export const datoClient = () => {
     return page
   }
 
-  const getHome = async (): Promise<HomeFragment> => {
-    const { data } = await client.query({
-      query: HomePageDocument,
-      variables: { locale: config.DEFAULT_LANG as SiteLocale },
-    })
-
-    const { home } = data as { home: HomeFragment }
-    return home
-  }
-
   const getBasePage = async (): Promise<BasePageProps> => {
     const { data } = await client.query({
       query: BasePageDocument,
@@ -49,10 +37,10 @@ export const datoClient = () => {
       throw new Error('Failed to fetch basePage data')
     }
 
-    const { allNavItems, footer, _site } = data
+    const { allNavItems, footer, _site, global } = data
 
-    return { menu: allNavItems, footer, site: _site }
+    return { menu: allNavItems, footer, site: _site, global }
   }
 
-  return { getPage, getHome, getBasePage }
+  return { getPage, getBasePage }
 }

@@ -9,7 +9,6 @@ const result: PossibleTypesResultData = {
     CtaModelLinkField: ['HomeRecord', 'PageRecord'],
     FileFieldInterface: ['FileField'],
     HomeModelContentField: [
-      'CardGridRecord',
       'ContentRecord',
       'GalleryRecord',
       'HeroRecord',
@@ -20,7 +19,6 @@ const result: PossibleTypesResultData = {
     ],
     LinkModelLinkField: ['HomeRecord', 'PageRecord'],
     PageModelContentField: [
-      'CardGridRecord',
       'ContentRecord',
       'GalleryRecord',
       'HeroRecord',
