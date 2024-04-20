@@ -10,7 +10,7 @@ steps:
       - '--build-arg'
       - 'DATO_PREVIEW=$_DATO_PREVIEW'
       - '.'
-    secretEnv: ['DATO_TOKEN', 'DATO_PREVIEW']
+    secretEnv: ['_DATO_TOKEN', '_DATO_PREVIEW']
 
   # Step 2: Push the Docker image to Google Container Registry (GCR)
   - name: 'gcr.io/cloud-builders/docker'
