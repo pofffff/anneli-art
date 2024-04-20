@@ -1,11 +1,4 @@
 steps:
-  # Install dependencies and build your Next.js app
-  - name: 'gcr.io/cloud-builders/npm'
-    args: ['install']
-
-  - name: 'gcr.io/cloud-builders/npm'
-    args: ['run', 'build']
-
   # Build Docker image and pass in secrets as build args
   - name: 'gcr.io/cloud-builders/docker'
     args:
