@@ -4,7 +4,7 @@ steps:
     args:
       - 'build'
       - '-t'
-      - 'gcr.io/anneli-art-00002-f5c/anneli-art:${SHORT_SHA}'
+      - 'gcr.io/myran-art-00002-f5c/myran-art:${SHORT_SHA}'
       - '--build-arg'
       - 'DATO_TOKEN=$_DATO_TOKEN'
       - '--build-arg'
@@ -14,7 +14,7 @@ steps:
 
   # Step 2: Push the Docker image to Google Container Registry (GCR)
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'gcr.io/anneli-art-00002-f5c/anneli-art:${SHORT_SHA}']
+    args: ['push', 'gcr.io/myran-art-00002-f5c/myran-art:${SHORT_SHA}']
 
   # Step 3: Deploy the Docker image to Google Cloud Run
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
@@ -22,9 +22,9 @@ steps:
     args:
       - 'run'
       - 'deploy'
-      - 'anneli-art-service'
+      - 'myran-art-service'
       - '--image'
-      - 'gcr.io/anneli-art-00002-f5c/anneli-art:${SHORT_SHA}'
+      - 'gcr.io/myran-art-00002-f5c/myran-art:${SHORT_SHA}'
       - '--region'
       - 'us-central1'
       - '--platform'
@@ -35,13 +35,13 @@ steps:
 
 availableSecrets:
   secretManager:
-    - versionName: 'projects/anneli-art-00002-f5c/secrets/DATO_TOKEN/versions/latest'
+    - versionName: 'projects/myran-art-00002-f5c/secrets/DATO_TOKEN/versions/latest'
       env: '_DATO_TOKEN'
-    - versionName: 'projects/anneli-art-00002-f5c/secrets/DATO_PREVIEW/versions/latest'
+    - versionName: 'projects/myran-art-00002-f5c/secrets/DATO_PREVIEW/versions/latest'
       env: '_DATO_PREVIEW'
 
 images:
-  - 'gcr.io/anneli-art-00002-f5c/anneli-art:${SHORT_SHA}'
+  - 'gcr.io/myran-art-00002-f5c/myran-art:${SHORT_SHA}'
 
 options:
   logging: CLOUD_LOGGING_ONLY
