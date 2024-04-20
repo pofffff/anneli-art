@@ -33,10 +33,12 @@ steps:
       - 'DATO_TOKEN=${DATO_TOKEN},DATO_PREVIEW=${DATO_PREVIEW}'
       - '--allow-unauthenticated'
 
-secrets:
-  - secretEnv:
-      DATO_TOKEN: 'projects/anneli-art-00002-f5c/secrets/DATO_TOKEN/versions/latest'
-      DATO_PREVIEW: 'projects/anneli-art-00002-f5c/secrets/DATO_PREVIEW/versions/latest'
+availableSecrets:
+  secretManager:
+    - versionName: 'projects/anneli-art-00002-f5c/secrets/DATO_TOKEN/versions/latest'
+      env: 'DATO_TOKEN'
+    - versionName: 'projects/anneli-art-00002-f5c/secrets/DATO_PREVIEW/versions/latest'
+      env: 'DATO_PREVIEW'
 
 images:
   - 'gcr.io/anneli-art-00002-f5c/anneli-art:${SHORT_SHA}'
