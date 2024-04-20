@@ -2,13 +2,12 @@ import { NavItemFragment, SiteFragment } from 'types'
 import {
   StyledHeader,
   StyledHeading,
+  StyledLogoLink,
   StyledNav,
   StyledNavItem,
   StyledTopHeader,
 } from './styled-header'
-import { HeadingH3 } from 'components/_elements/headings/heading-h3'
-// import LogoSvg from './anneli-art.svg'
-// import Link from 'next/link'
+import { HeadingH2 } from 'components/_elements'
 
 interface Props {
   menu: NavItemFragment[]
@@ -23,7 +22,7 @@ export const Header: React.FC<Props> = ({ menu, site }) => {
           <LogoSvg />
         </StyledLogoLink> */}
         <StyledHeading href={'/'}>
-          <HeadingH3>{site.globalSeo?.siteName}</HeadingH3>
+          <HeadingH2>{site.globalSeo?.siteName}</HeadingH2>
         </StyledHeading>
       </StyledTopHeader>
 

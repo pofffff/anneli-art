@@ -28,8 +28,8 @@ export const ButtonPrimary: React.FC<Props> = ({
     if (external) {
       return (
         <StyledButtonLink
-          bgColor={bgColor}
-          textColor={textColor}
+          $bgColor={bgColor}
+          $textColor={textColor}
           href={href}
           rel="noreferrer noopener"
           target="_blank"
@@ -39,7 +39,7 @@ export const ButtonPrimary: React.FC<Props> = ({
       )
     } else {
       return (
-        <StyledButtonLink bgColor={bgColor} textColor={textColor} href={href}>
+        <StyledButtonLink $bgColor={bgColor} $textColor={textColor} href={href}>
           {children}
         </StyledButtonLink>
       )
@@ -47,8 +47,8 @@ export const ButtonPrimary: React.FC<Props> = ({
   } else if (onClick) {
     return (
       <StyledButtonPrimary
-        bgColor={bgColor}
-        textColor={textColor}
+        $bgColor={bgColor}
+        $textColor={textColor}
         onClick={onClick}
       >
         {children}

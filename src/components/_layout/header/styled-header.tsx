@@ -1,36 +1,32 @@
 import Link from 'next/link'
 import styled from 'styled-components'
-import { spacings } from 'styles'
+import { colors, spacings } from 'styles'
 
 export const StyledHeader = styled.div`
-  /* padding: ${spacings.M}; */
   width: 100%;
   display: flex;
-  max-width: ${spacings.pageMaxWidth};
-  margin-left: auto;
-  margin-right: auto;
-  /* justify-content: center; */
-  /* align-content: center; */
-  /* display: flex; */
+  flex-direction: column;
 `
 
 export const StyledTopHeader = styled.div`
   display: flex;
-  justify-content: center;
-  align-items: center;
-  padding-block-start: ${spacings.XS};
-  margin-inline: ${spacings.M};
-  width: 100%;
+  color: ${colors.colorDark};
+  border-right: 1px solid ${colors.colorDark};
+  margin-inline-start: 5rem;
+  margin-block-start: 3rem;
 `
 export const StyledLogoLink = styled(Link)`
-  align-self: baseline;
-  width: 115px;
+  width: 20px;
+  height: 20px;
+
+  svg {
+    width: 100%;
+    height: 100%;
+  }
 `
 export const StyledHeading = styled(Link)`
-  width: 100%;
   display: flex;
-  /* justify-content: center; */
-  margin-block-end: ${spacings.XS};
+  justify-content: center;
 
   &:hover {
     text-decoration: none;
@@ -39,12 +35,16 @@ export const StyledHeading = styled(Link)`
 
 export const StyledNav = styled.nav`
   display: flex;
-  width: 100%;
-  justify-content: flex-end;
+  /* width: 100%; */
+  margin-inline: auto;
+  justify-content: center;
   align-items: center;
-  margin-inline-end: ${spacings.XL};
+  border-bottom: 1px solid ${colors.grey__400};
+  padding-block-end: 1rem;
+  padding-inline: 2.75rem;
 `
 
 export const StyledNavItem = styled(Link)`
-  padding-inline: ${spacings.XS};
+  padding: 0.5rem;
+  margin-inline: 1.5rem;
 `

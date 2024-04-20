@@ -22,6 +22,8 @@ export const colors = {
   // contentTertiary: colorVars.neutral3,
   contentLight: colorVars.white,
   contentDark: colorVars.black,
+  grey__300: '#E0E0E0',
+  grey__400: '#BDBDBD',
 }
 
 export const sizes = {
@@ -46,7 +48,7 @@ export const spacings = {
   M: '5vw',
   S: '3.75vw',
   XS: '2.5vw',
-  pageMaxWidth: '1400px',
+  pageMaxWidth: '1200px',
 }
 
 export const buttonSizes = {
@@ -76,8 +78,8 @@ export const boxShadow = {
 }
 
 export const fonts = {
-  sizeU: 16,
-  size: '16px',
+  sizeU: 18,
+  size: '18px',
 } as const
 
 export const fontSizes = {

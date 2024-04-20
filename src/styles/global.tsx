@@ -32,6 +32,7 @@ const globalStyle = css`
   html {
     min-height: 100vh;
     width: 100%;
+    background: #efebeb;
   }
 
   body {

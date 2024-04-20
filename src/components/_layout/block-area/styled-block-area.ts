@@ -4,7 +4,7 @@ import { spacings } from 'styles'
 export const StyledBlockArea = styled.div`
   display: flex;
   flex-direction: column;
-  margin-inline: ${spacings.M};
+  /* margin-inline: ${spacings.M}; */
 
   > * {
     padding-block-start: ${spacings.L};

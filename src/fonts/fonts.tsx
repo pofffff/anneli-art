@@ -16,35 +16,35 @@ import localFont from 'next/font/local'
 //   variable: '--font-raleway',
 // })
 
-const fontRoboto = localFont({
+const fontCarmorant = localFont({
   src: [
+    // {
+    //   path: './Cormorant_Garamond/static/CormorantGaramond-Thin.ttf',
+    //   weight: '100',
+    //   style: 'normal',
+    // },
     {
-      path: './Roboto_Slab/static/RobotoSlab-Thin.ttf',
-      weight: '100',
-      style: 'normal',
-    },
-    {
-      path: './Roboto_Slab/static/RobotoSlab-Light.ttf',
+      path: './Cormorant_Garamond/CormorantGaramond-Light.ttf',
       weight: '300',
       style: 'normal',
     },
     {
-      path: './Roboto_Slab/static/RobotoSlab-Regular.ttf',
+      path: './Cormorant_Garamond/CormorantGaramond-Regular.ttf',
       weight: '400',
       style: 'normal',
     },
     {
-      path: './Roboto_Slab/static/RobotoSlab-Medium.ttf',
+      path: './Cormorant_Garamond/CormorantGaramond-Medium.ttf',
       weight: '500',
       style: 'medium',
     },
     {
-      path: './Roboto_Slab/static/RobotoSlab-Bold.ttf',
+      path: './Cormorant_Garamond/CormorantGaramond-Bold.ttf',
       weight: '700',
       style: 'bold',
     },
   ],
-  variable: '--font-roboto-slab',
+  variable: '--font-cormorant-garamond',
 })
 
 export const Fonts: React.FC = () => {
@@ -55,7 +55,7 @@ export const Fonts: React.FC = () => {
       textarea,
       button,
       select {
-        font-family: ${fontRoboto.style.fontFamily}, sans-serif;
+        font-family: ${fontCarmorant.style.fontFamily}, sans-serif;
       }
       /* fix dehydration */
     `}</style>
