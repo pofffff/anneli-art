@@ -1,46 +1,43 @@
-options:
-  logging: CLOUD_LOGGING_ONLY
-
 steps:
-  # Step 1: Build the Docker image
+  # Build the Docker image
   - name: 'gcr.io/cloud-builders/docker'
     args:
       - 'build'
       - '-t'
-      - 'gcr.io/$PROJECT_ID/anneli-art:$SHORT_SHA'
-      - '--build-arg'
-      - 'DATO_TOKEN=$_DATO_TOKEN'
-      - '--build-arg'
-      - 'DATO_PREVIEW=$_DATO_PREVIEW'
+      - 'gcr.io/anneli-art-00002-f5c/anneli-art:$SHORT_SHA'
       - '.'
     secretEnv: ['DATO_TOKEN', 'DATO_PREVIEW']
 
-  # Step 2: Push the Docker image to GCR
+  # Push the image to GCR
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'gcr.io/anneli-art-00002-f5c/anneli-art:$SHORT_SHA']
 
-  # Step 3: Deploy the image to Cloud Run
+  # Deploy the image to Cloud Run
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: 'gcloud'
     args:
       - 'run'
       - 'deploy'
-      - 'anneli-art-service' # replace with your Cloud Run service name
+      - 'anneli-art-service'
       - '--image'
       - 'gcr.io/anneli-art-00002-f5c/anneli-art:$SHORT_SHA'
       - '--region'
-      - 'us-central1' # replace with your preferred region
+      - 'us-central1'
       - '--platform'
       - 'managed'
-      - '--allow-unauthenticated' # modify as per your authentication requirements
+      - '--set-env-vars'
+      - 'DATO_TOKEN=${_DATO_TOKEN},DATO_PREVIEW=${_DATO_PREVIEW}'
+      - '--allow-unauthenticated'
 
-# Use the `availableSecrets` field to map the Secret Manager secrets to env vars
 availableSecrets:
   secretManager:
     - versionName: 'projects/anneli-art-00002-f5c/secrets/DATO_TOKEN/versions/latest'
-      env: 'DATO_TOKEN'
+      env: '_DATO_TOKEN'
     - versionName: 'projects/anneli-art-00002-f5c/secrets/DATO_PREVIEW/versions/latest'
-      env: 'DATO_PREVIEW'
+      env: '_DATO_PREVIEW'
+
+options:
+  logging: CLOUD_LOGGING_ONLY
 
 images:
   - 'gcr.io/anneli-art-00002-f5c/anneli-art:$SHORT_SHA'
