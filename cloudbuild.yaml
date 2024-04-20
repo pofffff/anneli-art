@@ -7,9 +7,9 @@ steps:
       - 'gcr.io/${PROJECT_ID}/anneli-art:${SHORT_SHA}'
       - '.'
       - '--build-arg'
-      - 'DATO_TOKEN=${_DATO_TOKEN}'
+      - 'DATO_TOKEN="${_DATO_TOKEN}"'
       - '--build-arg'
-      - 'DATO_PREVIEW=${_DATO_PREVIEW}'
+      - 'DATO_PREVIEW="${_DATO_PREVIEW}"'
     secretEnv: ['_DATO_TOKEN', '_DATO_PREVIEW']
 
   # Push the image to GCR
