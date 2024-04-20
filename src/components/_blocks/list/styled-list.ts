@@ -40,8 +40,6 @@ export const StyledVerticalList = styled.ul`
   }
 
   @media screen and (min-width: ${breakpoints.desktop}) {
-    /* grid-template-columns: 1fr 1fr 1fr 1fr; */
-    /* grid-auto-rows: calc(25vh - 25px); */
   }
 `
 export const StyledListItem = styled.div<StyledListProps>`
