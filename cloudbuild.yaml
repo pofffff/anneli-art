@@ -30,7 +30,7 @@ steps:
       - '--platform'
       - 'managed'
       - '--set-env-vars'
-      - 'DATO_TOKEN=${_DATO_TOKEN},DATO_PREVIEW=${_DATO_PREVIEW}'
+      - 'DATO_TOKEN="${_DATO_TOKEN}",DATO_PREVIEW="${_DATO_PREVIEW}"'
       - '--allow-unauthenticated'
 
 secrets:
