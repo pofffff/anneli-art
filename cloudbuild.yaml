@@ -1,13 +1,17 @@
 steps:
-  # Build the Docker image
+  # Step 1: Build the Docker image
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'gcr.io/myran-art/myran-art:$SHORT_SHA', '.']
+    args:
+      - 'build'
+      - '-t'
+      - 'gcr.io/myran-art/myran-art:${SHORT_SHA}'
+      - '.'
 
-  # Push the Docker image to Google Container Registry (GCR)
+  # Step 2: Push the Docker image to Google Container Registry (GCR)
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'gcr.io/myran-art/myran-art:$SHORT_SHA']
+    args: ['push', 'gcr.io/myran-art/myran-art:${SHORT_SHA}']
 
-  # Deploy the Docker image to Google Cloud Run with the environment variables
+  # Step 3: Deploy the Docker image to Google Cloud Run
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: 'gcloud'
     args:
@@ -15,7 +19,7 @@ steps:
       - 'deploy'
       - 'myran-art-service'
       - '--image'
-      - 'gcr.io/myran-art/myran-art:$SHORT_SHA'
+      - 'gcr.io/myran-art/myran-art:${SHORT_SHA}'
       - '--region'
       - 'europe-west1'
       - '--platform'
@@ -24,8 +28,13 @@ steps:
       - 'DATO_TOKEN=${_DATO_TOKEN},DATO_PREVIEW=${_DATO_PREVIEW}'
       - '--allow-unauthenticated'
 
+# Define substitution variables and their corresponding secrets
+substitutions:
+  _DATO_TOKEN: 'projects/myran-art/secrets/DATO_TOKEN/versions/latest'
+  _DATO_PREVIEW: 'projects/myran-art/secrets/DATO_PREVIEW/versions/latest'
+
 images:
-  - 'gcr.io/myran-art/myran-art:$SHORT_SHA'
+  - 'gcr.io/myran-art/myran-art:${SHORT_SHA}'
 
 options:
   logging: CLOUD_LOGGING_ONLY
