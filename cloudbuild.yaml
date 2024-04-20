@@ -4,7 +4,7 @@ steps:
     args:
       - 'build'
       - '-t'
-      - 'gcr.io/myran-art-00002-f5c/myran-art:${SHORT_SHA}'
+      - 'gcr.io/myran-art/myran-art:${SHORT_SHA}'
       - '--build-arg'
       - 'DATO_TOKEN=$_DATO_TOKEN'
       - '--build-arg'
@@ -14,7 +14,7 @@ steps:
 
   # Step 2: Push the Docker image to Google Container Registry (GCR)
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'gcr.io/myran-art-00002-f5c/myran-art:${SHORT_SHA}']
+    args: ['push', 'gcr.io/myran-art/myran-art:${SHORT_SHA}']
 
   # Step 3: Deploy the Docker image to Google Cloud Run
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
@@ -24,7 +24,7 @@ steps:
       - 'deploy'
       - 'myran-art-service'
       - '--image'
-      - 'gcr.io/myran-art-00002-f5c/myran-art:${SHORT_SHA}'
+      - 'gcr.io/myran-art/myran-art:${SHORT_SHA}'
       - '--region'
       - 'us-central1'
       - '--platform'
@@ -35,13 +35,13 @@ steps:
 
 availableSecrets:
   secretManager:
-    - versionName: 'projects/myran-art-00002-f5c/secrets/DATO_TOKEN/versions/latest'
+    - versionName: 'projects/myran-art/secrets/DATO_TOKEN/versions/latest'
       env: '_DATO_TOKEN'
-    - versionName: 'projects/myran-art-00002-f5c/secrets/DATO_PREVIEW/versions/latest'
+    - versionName: 'projects/myran-art/secrets/DATO_PREVIEW/versions/latest'
       env: '_DATO_PREVIEW'
 
 images:
-  - 'gcr.io/myran-art-00002-f5c/myran-art:${SHORT_SHA}'
+  - 'gcr.io/myran-art/myran-art:${SHORT_SHA}'
 
 options:
   logging: CLOUD_LOGGING_ONLY
