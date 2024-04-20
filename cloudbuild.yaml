@@ -1,22 +1,22 @@
 steps:
-  # Build the Docker image
+  # Step 1: Build the Docker image with the secrets passed as build args
   - name: 'gcr.io/cloud-builders/docker'
     args:
       - 'build'
       - '-t'
       - 'gcr.io/anneli-art-00002-f5c/anneli-art:${SHORT_SHA}'
-      - '.'
       - '--build-arg'
       - 'DATO_TOKEN=${_DATO_TOKEN}'
       - '--build-arg'
       - 'DATO_PREVIEW=${_DATO_PREVIEW}'
-    secretEnv: ['_DATO_TOKEN', '_DATO_PREVIEW']
+      - '.'
+    secretEnv: ['DATO_TOKEN', 'DATO_PREVIEW']
 
-  # Push the image to GCR
+  # Step 2: Push the Docker image to Google Container Registry (GCR)
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'gcr.io/anneli-art-00002-f5c/anneli-art:${SHORT_SHA}']
 
-  # Deploy the image to Cloud Run
+  # Step 3: Deploy the Docker image to Google Cloud Run
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: 'gcloud'
     args:
@@ -30,15 +30,13 @@ steps:
       - '--platform'
       - 'managed'
       - '--set-env-vars'
-      - 'DATO_TOKEN="${_DATO_TOKEN}",DATO_PREVIEW="${_DATO_PREVIEW}"'
+      - 'DATO_TOKEN=${DATO_TOKEN},DATO_PREVIEW=${DATO_PREVIEW}'
       - '--allow-unauthenticated'
 
-availableSecrets:
-  secretManager:
-    - versionName: 'projects/anneli-art-00002-f5c/secrets/DATO_TOKEN/versions/latest'
-      env: 'DATO_TOKEN'
-    - versionName: 'projects/anneli-art-00002-f5c/secrets/DATO_PREVIEW/versions/latest'
-      env: 'DATO_PREVIEW'
+secrets:
+  - secretEnv:
+      DATO_TOKEN: 'projects/anneli-art-00002-f5c/secrets/DATO_TOKEN/versions/latest'
+      DATO_PREVIEW: 'projects/anneli-art-00002-f5c/secrets/DATO_PREVIEW/versions/latest'
 
 images:
   - 'gcr.io/anneli-art-00002-f5c/anneli-art:${SHORT_SHA}'
