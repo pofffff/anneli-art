@@ -1,7 +1,4 @@
 FROM node:20.11.0-alpine AS base
-ARG DATO_TOKEN
-ARG DATO_PREVIEW
-
 
 WORKDIR /app
 
@@ -30,8 +27,7 @@ COPY --from=builder /app/package.json ./package.json
 
 ENV NODE_ENV production
 ENV NEXT_TELEMETRY_DISABLED 1
-ENV DATO_TOKEN=${DATO_TOKEN}
-ENV DATO_PREVIEW=${DATO_PREVIEW}
+
 EXPOSE 3000
 ENV PORT 3000
 
