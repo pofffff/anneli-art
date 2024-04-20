@@ -4,13 +4,17 @@ steps:
     args:
       - 'build'
       - '-t'
-      - 'gcr.io/anneli-art-00002-f5c/anneli-art:$SHORT_SHA'
+      - 'gcr.io/${PROJECT_ID}/anneli-art:${SHORT_SHA}'
       - '.'
-    secretEnv: ['DATO_TOKEN', 'DATO_PREVIEW']
+      - '--build-arg'
+      - 'DATO_TOKEN=${_DATO_TOKEN}'
+      - '--build-arg'
+      - 'DATO_PREVIEW=${_DATO_PREVIEW}'
+    secretEnv: ['_DATO_TOKEN', '_DATO_PREVIEW']
 
   # Push the image to GCR
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'gcr.io/anneli-art-00002-f5c/anneli-art:$SHORT_SHA']
+    args: ['push', 'gcr.io/${PROJECT_ID}/anneli-art:${SHORT_SHA}']
 
   # Deploy the image to Cloud Run
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
@@ -20,7 +24,7 @@ steps:
       - 'deploy'
       - 'anneli-art-service'
       - '--image'
-      - 'gcr.io/anneli-art-00002-f5c/anneli-art:$SHORT_SHA'
+      - 'gcr.io/${PROJECT_ID}/anneli-art:${SHORT_SHA}'
       - '--region'
       - 'us-central1'
       - '--platform'
@@ -29,23 +33,14 @@ steps:
       - 'DATO_TOKEN=${_DATO_TOKEN},DATO_PREVIEW=${_DATO_PREVIEW}'
       - '--allow-unauthenticated'
 
-availableSecrets:
-  secretManager:
-    - versionName: 'projects/anneli-art-00002-f5c/secrets/DATO_TOKEN/versions/latest'
-      env: '_DATO_TOKEN'
-    - versionName: 'projects/anneli-art-00002-f5c/secrets/DATO_PREVIEW/versions/latest'
-      env: '_DATO_PREVIEW'
+secrets:
+  - kmsKeyName: projects/anneli-art-00002-f5c/locations/global/keyRings/my-keyring/cryptoKeys/my-key
+    secretEnv:
+      _DATO_TOKEN: projects/anneli-art-00002-f5c/secrets/DATO_TOKEN/versions/latest
+      _DATO_PREVIEW: projects/anneli-art-00002-f5c/secrets/DATO_PREVIEW/versions/latest
+
+images:
+  - 'gcr.io/${PROJECT_ID}/anneli-art:${SHORT_SHA}'
 
 options:
   logging: CLOUD_LOGGING_ONLY
-
-images:
-  - 'gcr.io/anneli-art-00002-f5c/anneli-art:$SHORT_SHA'
-# availableSecrets:
-#   secretManager:
-#     - versionName: projects/anneli-art-00002-f5c/secrets/DATO_TOKEN/versions/latest
-#       env: 'DATO_TOKEN'
-#     - versionName: projects/anneli-art-00002-f5c/secrets/DATO_PREVIEW/versions/latest
-#       env: 'DATO_PREVIEW'
-# images:
-#   - 'gcr.io/${PROJECT_ID}/anneli-art:${COMMIT_SHA}'
