@@ -4,12 +4,13 @@ steps:
     args:
       - 'build'
       - '--build-arg'
-      - 'DATO_TOKEN=${_DATO_TOKEN}'
+      - 'DATO_TOKEN="${_DATO_TOKEN}"'
       - '--build-arg'
-      - 'DATO_PREVIEW=${_DATO_PREVIEW}'
+      - 'DATO_PREVIEW="${_DATO_PREVIEW}"'
       - '-t'
       - 'gcr.io/${PROJECT_ID}/anneli-art:${COMMIT_SHA}'
       - '.'
+    secretEnv: ['DATO_TOKEN', 'DATO_PREVIEW']
 
 secrets:
   - secretEnv:
